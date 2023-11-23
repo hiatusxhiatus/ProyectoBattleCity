@@ -1,0 +1,95 @@
+JFDML JFormDesigner: "8.2.0.0.331" Java: "17.0.8.1" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+			name: "panel"
+			"background": sfield java.awt.Color black
+			"foreground": new java.awt.Color( 255, 255, 255, 255 )
+			"preferredSize": new java.awt.Dimension( 1152, 720 )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label1"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/imagenes/TITLE.png" )
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 0
+				"y": 110
+				"width": 1025
+				"height": 310
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label2"
+				"text": "I -    00 HI- 20000"
+				"font": new java.awt.Font( "Pixel NES", 0, 42 )
+				"foreground": &Color0 new java.awt.Color( 255, 255, 255, 255 )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 50
+				"y": 30
+				"width": 840
+				"height": 55
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label3"
+				"text": "1 player"
+				"font": new java.awt.Font( "Pixel NES", 0, 42 )
+				"foreground": #Color0
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 250
+				"height": 60
+				"x": 395
+				"y": 470
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label5"
+				"font": new java.awt.Font( "Pixel NES", 0, 42 )
+				"foreground": #Color0
+				"horizontalAlignment": 0
+				"text": "all rights reserved"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 1025
+				"height": 60
+				"x": 0
+				"y": 765
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label7"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/imagenes/yellowTankRIGHT.png" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 325
+				"y": 470
+				"width": 56
+				"height": 56
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label6"
+				"font": new java.awt.Font( "Pixel NES", 0, 42 )
+				"foreground": sfield java.awt.Color red
+				"horizontalAlignment": 0
+				"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"text": "ITCR"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 1025
+				"height": 55
+				"x": 0
+				"y": 655
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label8"
+				"font": new java.awt.Font( "Pixel NES", 0, 42 )
+				"foreground": #Color0
+				"horizontalAlignment": 0
+				"text": "2023 hiatus chomin ltd"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 1025
+				"height": 60
+				"x": 0
+				"y": 710
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 820, 666 )
+		} )
+	}
+}
