@@ -534,26 +534,6 @@ new FormModel {
 				"y": 736
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "label271"
-				"icon": #SwingIcon2
-				"horizontalAlignment": 0
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"width": 32
-				"height": 32
-				"x": 256
-				"y": 704
-			} )
-			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "label272"
-				"icon": #SwingIcon2
-				"horizontalAlignment": 0
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"width": 32
-				"height": 32
-				"x": 288
-				"y": 704
-			} )
-			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label273"
 				"icon": #SwingIcon2
 				"horizontalAlignment": 0

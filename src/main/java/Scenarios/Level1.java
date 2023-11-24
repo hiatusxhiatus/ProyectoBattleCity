@@ -1,6 +1,7 @@
 
 package Scenarios;
 
+import Classes.ImageCache;
 import Factories.*;
 import Interfaces.IScenario;
 import Interfaces.IStructure;

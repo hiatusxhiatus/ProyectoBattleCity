@@ -23,23 +23,23 @@ public class MoveCommand implements TankCommand {
 
             tank.setLocation((tank.getLocation().x+3), tank.getLocation().y);
             tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
-            tank.getLabel().setIcon(new ImageIcon("src/main/java/imagenes/yellowTankRIGHTCHIKITO.png"));
+            tank.getLabel().setIcon(new ImageIcon("src/main/java/imagenes/yellowTankRIGHT.png"));
 
         } else if (tank.getOrientation().equals(Orientation.Left)) {
 
             tank.setLocation((tank.getLocation().x-3), tank.getLocation().y);
             tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
-            tank.getLabel().setIcon(new ImageIcon("src/main/java/imagenes/yellowTankLEFTCHIKITO.png"));
+            tank.getLabel().setIcon(new ImageIcon("src/main/java/imagenes/yellowTankLEFT.png"));
 
         } else if (tank.getOrientation().equals(Orientation.Up)) {
             tank.setLocation((tank.getLocation().x), tank.getLocation().y-3);
             tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
-            tank.getLabel().setIcon(new ImageIcon("src/main/java/imagenes/yellowTankUPCHIKITO.png"));
+            tank.getLabel().setIcon(new ImageIcon("src/main/java/imagenes/yellowTankUP.png"));
 
         } else {
             tank.setLocation((tank.getLocation().x), tank.getLocation().y+3);
             tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
-            tank.getLabel().setIcon(new ImageIcon("src/main/java/imagenes/yellowTankDOWNCHIKITO.png"));
+            tank.getLabel().setIcon(new ImageIcon("src/main/java/imagenes/yellowTankDOWN.png"));
         }
     }
 }

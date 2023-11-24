@@ -75,10 +75,6 @@ public class Level6 implements IScenario {
         structures.add(structureFactory.createStructure(new Point(128, 736)));
         structures.add(structureFactory.createStructure(new Point(128, 704)));
         structures.add(structureFactory.createStructure(new Point(160, 704)));
-        structures.add(structureFactory.createStructure(new Point(288, 736)));
-        structures.add(structureFactory.createStructure(new Point(256, 736)));
-        structures.add(structureFactory.createStructure(new Point(256, 704)));
-        structures.add(structureFactory.createStructure(new Point(288, 704)));
         structures.add(structureFactory.createStructure(new Point(608, 800)));
         structures.add(structureFactory.createStructure(new Point(576, 800)));
         structures.add(structureFactory.createStructure(new Point(576, 768)));

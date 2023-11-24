@@ -26,6 +26,7 @@ public class Window extends JFrame {
         JPanel contentPane = new JPanel(new BorderLayout());
         setContentPane(contentPane);
         setLocationRelativeTo(null);
+        setUndecorated(true);
         setVisible(true);
 
     }

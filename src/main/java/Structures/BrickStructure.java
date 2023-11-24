@@ -1,10 +1,13 @@
 package Structures;
 
+import Classes.ImageCache;
 import Enums.BrickState;
+import Enums.Orientation;
 import Enums.StructureType;
 import Interfaces.IStructure;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 
 public class BrickStructure implements IStructure {
@@ -26,15 +29,13 @@ public class BrickStructure implements IStructure {
 
     public void setUpLabel() {
 
-        label.setIcon(new ImageIcon("src/main/java/imagenes/brick.png"));
+        label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brick.png"));
         label.setBounds(location.x, location.y, 32, 32);
         label.setLocation(location);
 
     }
 
-    public void setNewStateAndAppearance(BrickState state) {
-
-        this.state = state;
+    public void setNewAppearance() {
 
         switch (state) {
             case Top -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickT.png"));
@@ -50,9 +51,135 @@ public class BrickStructure implements IStructure {
             case BottomLeftCorner -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickBLCorner.png"));
             case BottomRightCorner -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickBRCorner.png"));
         }
+    }
+
+    /*
+                if (orientation.equals(Orientation.Up))
+                    state = BrickState.
+                else if (orientation.equals(Orientation.Down))
+                    state = BrickState.
+                else if (orientation.equals(Orientation.Left))
+                    state = BrickState.
+                else if (orientation.equals(Orientation.Right))
+                    state = BrickState.
+                break;
+     */
+
+    public void setNewState(Orientation orientation) {
+
+        switch (state) {
+
+            case Complete:
+                if (orientation.equals(Orientation.Up))
+                    state = BrickState.Bottom;
+                else if (orientation.equals(Orientation.Down))
+                    state = BrickState.Top;
+                else if (orientation.equals(Orientation.Left))
+                    state = BrickState.Right;
+                else if (orientation.equals(Orientation.Right))
+                    state = BrickState.Left;
+                break;
+            case Top:
+                if (orientation.equals(Orientation.Up))
+                    state = BrickState.Destroyed;
+                else if (orientation.equals(Orientation.Down))
+                    state = BrickState.Destroyed;
+                else if (orientation.equals(Orientation.Left))
+                    state = BrickState.TopRight;
+                else if (orientation.equals(Orientation.Right))
+                    state = BrickState.TopLeft;
+                break;
+            case Bottom:
+                if (orientation.equals(Orientation.Up))
+                    state = BrickState.Destroyed;
+                else if (orientation.equals(Orientation.Down))
+                    state = BrickState.Destroyed;
+                else if (orientation.equals(Orientation.Left))
+                    state = BrickState.BottomRight;
+                else if (orientation.equals(Orientation.Right))
+                    state = BrickState.BottomLeft;
+                break;
+            case Left:
+                if (orientation.equals(Orientation.Up))
+                    state = BrickState.TopLeft;
+                else if (orientation.equals(Orientation.Down))
+                    state = BrickState.BottomLeft;
+                else if (orientation.equals(Orientation.Left))
+                    state = BrickState.Destroyed;
+                else if (orientation.equals(Orientation.Right))
+                    state = BrickState.Destroyed;
+                break;
+            case Right:
+                if (orientation.equals(Orientation.Up))
+                    state = BrickState.BottomRight;
+                else if (orientation.equals(Orientation.Down))
+                    state = BrickState.TopRight;
+                else if (orientation.equals(Orientation.Left))
+                    state = BrickState.Destroyed;
+                else if (orientation.equals(Orientation.Right))
+                    state = BrickState.Destroyed;
+                break;
+            case TopLeft, TopRight, BottomLeft, BottomRight:
+                if (orientation.equals(Orientation.Up))
+                    state = BrickState.Destroyed;
+                else if (orientation.equals(Orientation.Down))
+                    state = BrickState.Destroyed;
+                else if (orientation.equals(Orientation.Left))
+                    state = BrickState.Destroyed;
+                else if (orientation.equals(Orientation.Right))
+                    state = BrickState.Destroyed;
+                break;
+            case TopLeftCorner:
+                if (orientation.equals(Orientation.Up))
+                    state = BrickState.BottomLeft;
+                else if (orientation.equals(Orientation.Down))
+                    state = BrickState.Top;
+                else if (orientation.equals(Orientation.Left))
+                    state = BrickState.TopRight;
+                else if (orientation.equals(Orientation.Right))
+                    state = BrickState.Left;
+                break;
+            case TopRightCorner:
+                if (orientation.equals(Orientation.Up))
+                    state = BrickState.BottomRight;
+                else if (orientation.equals(Orientation.Down))
+                    state = BrickState.Top;
+                else if (orientation.equals(Orientation.Left))
+                    state = BrickState.Right;
+                else if (orientation.equals(Orientation.Right))
+                    state = BrickState.TopLeft;
+                break;
+            case BottomLeftCorner:
+                if (orientation.equals(Orientation.Up))
+                    state = BrickState.Bottom;
+                else if (orientation.equals(Orientation.Down))
+                    state = BrickState.TopLeft;
+                else if (orientation.equals(Orientation.Left))
+                    state = BrickState.BottomRight;
+                else if (orientation.equals(Orientation.Right))
+                    state = BrickState.Left;
+                break;
+            case BottomRightCorner:
+                if (orientation.equals(Orientation.Up))
+                    state = BrickState.Bottom;
+                else if (orientation.equals(Orientation.Down))
+                    state = BrickState.TopRight;
+                else if (orientation.equals(Orientation.Left))
+                    state = BrickState.Right;
+                else if (orientation.equals(Orientation.Right))
+                    state = BrickState.BottomLeft;
+                break;
+        }
 
     }
 
+
+    @Override
+    public void setHP(int hp, Orientation orientation) {
+        this.hp = hp;
+        setNewState(orientation);
+        setNewAppearance();
+    }
 
     @Override
     public int getHP() {
@@ -81,7 +208,7 @@ public class BrickStructure implements IStructure {
 
     @Override
     public void setState(BrickState state) {
-        setNewStateAndAppearance(state);
+        //setNewStateAndAppearance(state);
     }
 
 }

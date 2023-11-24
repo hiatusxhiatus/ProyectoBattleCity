@@ -46,7 +46,7 @@ public class Tank implements IPrototype {
     public void setUpLabel() {
 
         switch (tankType) {
-            case Ally -> label.setIcon(new ImageIcon("src/main/java/imagenes/yellowTankUPCHIKITO.png"));
+            case Ally -> label.setIcon(new ImageIcon("src/main/java/imagenes/yellowTankUP.png"));
             case Simple -> label.setIcon(new ImageIcon("src/main/java/imagenes/simpleTankDOWN.png"));
             case FastMove -> label.setIcon(new ImageIcon("src/main/java/imagenes/fastMoveTankDOWN.png"));
             case FastShoot -> label.setIcon(new ImageIcon("src/main/java/imagenes/fastShootTankDOWN.png"));
@@ -140,6 +140,16 @@ public class Tank implements IPrototype {
 
     public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
+
+        if (tankType.equals(TankType.Ally))
+        {
+            switch (orientation) {
+                case Right -> label.setIcon(new ImageIcon("src/main/java/imagenes/yellowTankRIGHT.png"));
+                case Left -> label.setIcon(new ImageIcon("src/main/java/imagenes/yellowTankLEFT.png"));
+                case Down -> label.setIcon(new ImageIcon("src/main/java/imagenes/yellowTankDOWN.png"));
+                case Up -> label.setIcon(new ImageIcon("src/main/java/imagenes/yellowTankUP.png"));
+            }
+        }
     }
 
     public boolean isActive() {

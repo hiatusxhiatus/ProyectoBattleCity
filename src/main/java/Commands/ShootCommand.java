@@ -1,23 +1,31 @@
 package Commands;
 
+import Classes.Bullet;
+import Classes.Game;
 import Classes.Tank;
+import Enums.Orientation;
 import Interfaces.TankCommand;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class ShootCommand implements TankCommand {
 
-    private final Tank tank;
+    private final Bullet bullet;
 
-    public ShootCommand(Tank tank) {
-        this.tank = tank;
+    public ShootCommand(Bullet bullet) {
+        this.bullet = bullet;
     }
 
     @Override
     public void execute() {
-        // Lógica de disparo del tanque
-        // Aquí podrías implementar la lógica para disparar
-        // Por ejemplo, reducir la munición, efectos visuales, etc.
-        System.out.println("¡Pum! El tanque" + tank +" ha disparado.");
 
+        switch (bullet.getOrientation()) {
+            case Up -> bullet.setLocation(bullet.getLocation().x, bullet.getLocation().y-5);
+            case Down -> bullet.setLocation(bullet.getLocation().x, bullet.getLocation().y+5);
+            case Left -> bullet.setLocation(bullet.getLocation().x-5, bullet.getLocation().y);
+            case Right -> bullet.setLocation(bullet.getLocation().x+5, bullet.getLocation().y);
+        }
     }
 
 }

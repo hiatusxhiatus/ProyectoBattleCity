@@ -1,6 +1,7 @@
 package Structures;
 
 import Enums.BrickState;
+import Enums.Orientation;
 import Enums.StructureType;
 import Interfaces.IStructure;
 
@@ -28,6 +29,11 @@ public class EagleStructure implements IStructure {
         label.setBounds(location.x, location.y, 64, 64);
         label.setLocation(location);
 
+    }
+
+    @Override
+    public void setHP(int hp, Orientation orientation) {
+        this.hp = hp;
     }
 
     @Override

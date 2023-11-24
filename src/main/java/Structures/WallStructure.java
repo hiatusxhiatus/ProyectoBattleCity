@@ -1,6 +1,8 @@
 package Structures;
 
+import Classes.ImageCache;
 import Enums.BrickState;
+import Enums.Orientation;
 import Enums.StructureType;
 import Interfaces.IStructure;
 
@@ -24,9 +26,14 @@ public class WallStructure implements IStructure {
 
     public void setUpLabel() {
 
-        label.setIcon(new ImageIcon("src/main/java/imagenes/wall.png"));
+        label.setIcon(ImageCache.loadImage("src/main/java/imagenes/wall.png"));
         label.setBounds(location.x, location.y, 32, 32);
         label.setLocation(location);
+
+    }
+
+    @Override
+    public void setHP(int hp, Orientation orientation) {
 
     }
 
