@@ -2,10 +2,12 @@
 package Scenarios;
 
 import Interfaces.IScenario;
+import Interfaces.IStructure;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class Menu implements IScenario {
@@ -25,6 +27,7 @@ public class Menu implements IScenario {
         lblTank = new JLabel();
         lblITCR = new JLabel();
         lblHiatusChomin = new JLabel();
+        lblpressEnter = new JLabel();
 
         panel.setBackground(Color.black);
         panel.setForeground(Color.white);
@@ -82,6 +85,12 @@ public class Menu implements IScenario {
         panel.add(lblHiatusChomin);
         lblHiatusChomin.setBounds(0, 710, 1025, 60);
 
+        //---- lblpressEnter ----
+        lblpressEnter.setHorizontalAlignment(SwingConstants.CENTER);
+        lblpressEnter.setIcon(new ImageIcon("src/main/java/imagenes/pressEnterBlack.gif"));
+        panel.add(lblpressEnter);
+        lblpressEnter.setBounds(0, 550, 1030, 87);
+
 
         // compute preferred size
         Dimension preferredSize = new Dimension();
@@ -109,6 +118,16 @@ public class Menu implements IScenario {
         return null;
     }
 
+    @Override
+    public ArrayList<IStructure> getStructures() {
+        return null;
+    }
+
+    @Override
+    public IStructure getEagle() {
+        return null;
+    }
+
     private JPanel panel;
     private JLabel lblTitle;
     private JLabel lblPoints;
@@ -117,5 +136,6 @@ public class Menu implements IScenario {
     private JLabel lblTank;
     private JLabel lblITCR;
     private JLabel lblHiatusChomin;
+    private JLabel lblpressEnter;
 
 }

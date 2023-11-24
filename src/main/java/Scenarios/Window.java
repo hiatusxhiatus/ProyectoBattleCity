@@ -12,10 +12,6 @@ import javax.swing.*;
 
 public class Window extends JFrame {
 
-    private ScenarioFactory scenarioFactory;
-    private IScenario scenario;
-    private boolean isStagePanel;
-
     public Window() {
         initComponents();
     }

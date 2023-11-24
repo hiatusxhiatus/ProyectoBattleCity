@@ -330,8 +330,8 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 32
 				"height": 32
-				"x": 96
-				"y": 768
+				"x": 256
+				"y": 765
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label37"
@@ -3121,4 +3121,3 @@ new FormModel {
 		} )
 	}
 }
-

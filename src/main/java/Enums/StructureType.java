@@ -6,7 +6,7 @@ public enum StructureType {
     Wall,
     Grass,
     Water,
-    Destroyed
-
+    Destroyed,
+    Eagle,
 
 }

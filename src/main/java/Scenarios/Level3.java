@@ -12,6 +12,7 @@ import javax.swing.*;
 public class Level3 implements IScenario {
 
     ArrayList<IStructure> structures;
+    IStructure eagle;
     StructureFactory structureFactory;
     private JPanel panelWindow;
     private JPanel panelGame;
@@ -53,6 +54,9 @@ public class Level3 implements IScenario {
             panelGame.setMinimumSize(preferredSize);
             panelGame.setPreferredSize(preferredSize);
         }
+
+        structureFactory = new EagleStructureFactory();
+        eagle = structureFactory.createStructure(new Point(384, 768));
 
         structureFactory = new BrickStructureFactory();
 
@@ -357,8 +361,7 @@ public class Level3 implements IScenario {
         structures.add(structureFactory.createStructure(new Point(576, 768)));
         structures.add(structureFactory.createStructure(new Point(608, 768)));
 
-
-
+        panelGame.add(eagle.getLabel());
 
         for (IStructure structure : structures)
             panelGame.add(structure.getLabel());
@@ -378,4 +381,13 @@ public class Level3 implements IScenario {
         return panelGame;
     }
 
+    @Override
+    public ArrayList<IStructure> getStructures() {
+        return structures;
+    }
+
+    @Override
+    public IStructure getEagle() {
+        return eagle;
+    }
 }

@@ -10,6 +10,7 @@ public class StagePanel {
     public StagePanel(int levelNumber){
 
         JLabel label1 = new JLabel();
+        JLabel lblpressEnter = new JLabel();
         this.stagePanel = new JPanel();
 
         this.stagePanel.setBackground(new Color(0x999999));
@@ -21,6 +22,11 @@ public class StagePanel {
         label1.setForeground(Color.black);
         this.stagePanel.add(label1);
         label1.setBounds(0, 370, 1030, 95);
+
+        lblpressEnter.setHorizontalAlignment(SwingConstants.CENTER);
+        lblpressEnter.setIcon(new ImageIcon("src/main/java/imagenes/pressEnterGray.gif"));
+        stagePanel.add(lblpressEnter);
+        lblpressEnter.setBounds(0, 700, 1030, 87);
 
         Dimension preferredSize = new Dimension();
         for(int i = 0; i < this.stagePanel.getComponentCount(); i++) {

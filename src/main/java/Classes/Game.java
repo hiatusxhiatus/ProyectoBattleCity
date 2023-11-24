@@ -1,10 +1,15 @@
 package Classes;
 
+import Commands.MoveCommand;
+import Enums.Orientation;
+import Enums.StructureType;
 import Enums.TankType;
-import Factories.Level1Factory;
+import Factories.*;
 import Factories.MenuFactory;
 import Factories.ScenarioFactory;
+import Interfaces.IObserver;
 import Interfaces.IScenario;
+import Interfaces.IStructure;
 import Scenarios.StagePanel;
 import Scenarios.Window;
 
@@ -21,20 +26,30 @@ public class Game implements KeyListener {
 
     private Window windowRef;
     private ScenarioFactory scenarioFactory;
+    private ArrayList<IObserver> keyObservers;
     private IScenario scenario;
     private boolean isStagePanel;
+    private boolean isGameStarted;
+    private boolean isMovingUp = false;
+    private boolean isMovingDown = false;
+    private boolean isMovingLeft = false;
+    private boolean isMovingRight = false;
 
     private Tank allyTank;
     private Tank simpleTank;
     private Tank fastMoveTank;
     private Tank fastShootTank;
     private Tank resistantTank;
+
     private ArrayList<Tank> enemyTanks;
+    private Tank playerTank;
 
     public Game(Window windowRef) {
         this.windowRef = windowRef;
         this.isStagePanel = false;
+        this.isGameStarted = false;
         this.enemyTanks = new ArrayList<Tank>();
+        this.keyObservers = new ArrayList<>();
         initializeGame();
     }
 
@@ -58,26 +73,35 @@ public class Game implements KeyListener {
 
     public void spawnTanks() {
 
+        playerTank = allyTank.clone();
+        playerTank.setLocation(new Point(256, 764));
+        playerTank.getLabel().setLocation(256, 764);
+
+        new TankThread(playerTank).start();
+        scenario.getPanelGame().add(playerTank.getLabel());
+        scenario.getPanelGame().revalidate();
+        scenario.getPanelGame().repaint();
+        startTankMovementThread();
+        playerTank.setActive(true);
 
         getEnemyTanks(3);
-        randomSpawnPoint();
-
-        for (Tank tank : enemyTanks)
-            System.out.println(tank.getLabel().getLocation());
 
         Timer timer = new Timer();
         long delay = 500;
 
         for (Tank tank : enemyTanks)
         {
+            randomSpawnPoint(tank);
             timer.schedule(new TimerTask()
             {
                 public void run()
                 {
-                    //System.out.println(tank.getLabel().getLocation());
+                    //new TankThread(tank).start();
                     scenario.getPanelGame().add(tank.getLabel());
                     scenario.getPanelGame().revalidate();
                     scenario.getPanelGame().repaint();
+                    tank.setOrientation(Orientation.Down);
+                    tank.setActive(true);
                 }
             }, delay);
 
@@ -85,71 +109,83 @@ public class Game implements KeyListener {
         }
     }
 
-    public void randomSpawnPoint() {
+    public void randomSpawnPoint(Tank tank) {
 
         Random random = new Random();
+        boolean isValid = false;
         int x;
         int y;
 
-        for (Tank tank : enemyTanks)
-        {
-            do {
-                random = new Random();
-                x = random.nextInt(26) * 32;
-                y = random.nextInt(26) * 32;
+        do {
+            isValid = false;
+            random = new Random();
+            x = random.nextInt(13) * 64;
+            y = random.nextInt(5) * 64;
 
-                if (isValidSpawn(x, y)) {
-                    tank.getLabel().setBounds(x, y, 64, 64);
-                    tank.getLabel().setLocation(x, y);
-                }
+            if (isValidSpawn(x, y)) {
+                tank.getLabel().setBounds(x, y, 52, 52);
+                tank.getLabel().setLocation(x, y);
+                tank.setLocation(new Point(x, y));
+                isValid = true;
+            }
 
-            } while (!isValidSpawn(x, y));
-        }
-        System.out.println("\n");
+        } while (!isValid);
+
     }
 
     public boolean isValidSpawn(int cordX, int cordY) {
 
-        Component[] components = scenario.getPanelGame().getComponents();
+        boolean allGrass = false;
+        boolean validSpawn = true;
+        boolean noTank = true;
 
-
-        for (Component component: components) {
-            if (component.getX() == cordX && component.getY() == cordY)
-                return false;
-            if (component.getX()+32 == cordX && component.getY() == cordY)
-                return false;
-            if (component.getX() == cordX && component.getY()+32 == cordY)
-                return false;
-            if (component.getX()+32 == cordX && component.getY()+32 == cordY)
-                return false;
+        for (IStructure structure: scenario.getStructures())
+        {
+            if (structure.getType().equals(StructureType.Grass) && structure.getLocation().x == cordX && structure.getLocation().y == cordY)
+            {
+                allGrass = true;
+                for (IStructure structure2 : scenario.getStructures())
+                {
+                    if (structure2.getLocation().x == cordX + 32 && structure2.getLocation().y == cordY && !structure2.getType().equals(StructureType.Grass))
+                        allGrass = false;
+                    if (structure2.getLocation().x == cordX && structure2.getLocation().y == cordY + 32 && !structure2.getType().equals(StructureType.Grass))
+                        allGrass = false;
+                    if (structure2.getLocation().x == cordX + 32 && structure2.getLocation().y == cordY + 32 && !structure2.getType().equals(StructureType.Grass))
+                        allGrass = false;
+                    if (!allGrass)
+                        break;
+                }
+            }
         }
 
-        return true;
-    }
+        for (IStructure structure: scenario.getStructures())
+        {
+            if (structure.getLocation().x == cordX && structure.getLocation().y == cordY)
+                validSpawn = false;
+            if (structure.getLocation().x == cordX+32 && structure.getLocation().y == cordY)
+                validSpawn = false;
+            if (structure.getLocation().x == cordX && structure.getLocation().y == cordY+32)
+                validSpawn = false;
+            if (structure.getLocation().x == cordX+32 && structure.getLocation().y == cordY+32)
+                validSpawn = false;
+            if (!validSpawn)
+                break;
+        }
 
+        for (Tank tank : enemyTanks) {
+            if (tank.getLocation().x == cordX && tank.getLocation().y == cordY)
+                noTank = false;
+            if (tank.getLocation().x == cordX+32 && tank.getLocation().y == cordY)
+                noTank = false;
+            if (tank.getLocation().x == cordX && tank.getLocation().y == cordY+32)
+                noTank = false;
+            if (tank.getLocation().x == cordX+32 && tank.getLocation().y == cordY+32)
+                noTank = false;
+            if(!noTank)
+                break;
+        }
 
-    public ArrayList<Integer> getXRange(int cordX) {
-
-        ArrayList<Integer> xRange = new ArrayList<>();
-
-        int lastCord = cordX + 32;
-
-        for (int i = cordX; i < lastCord; i++)
-            xRange.add(i);
-
-        return  xRange;
-    }
-
-    public ArrayList<Integer> getYRange(int cordY) {
-
-        ArrayList<Integer> yRange = new ArrayList<>();
-
-        int lastCord = cordY + 32;
-
-        for (int i = cordY; i < lastCord; i++)
-            yRange.add(i);
-
-        return  yRange;
+        return (validSpawn && noTank) || (allGrass && noTank);
     }
 
     public void getEnemyTanks(int level) {
@@ -222,8 +258,89 @@ public class Game implements KeyListener {
         }
     }
 
+    public boolean validateMovement(ArrayList<Integer> tankRangeX, ArrayList<Integer> tankRangeY) {
+
+        boolean isValidStructure = true;
+        boolean isValidTank = true;
+        boolean isValidMovementX;
+        boolean isValidMovementY;
+        ArrayList<Integer> structureRangeX;
+        ArrayList<Integer> structureRangeY;
+        ArrayList<Integer> enemyRangeX;
+        ArrayList<Integer> enemyRangeY;
+
+        for (IStructure structure : scenario.getStructures())
+        {
+            if (!structure.getType().equals(StructureType.Grass)) {
+                isValidStructure = true;
+                isValidMovementX = true;
+                isValidMovementY = true;
+                structureRangeX = generateRange(structure.getLocation().x, 32);
+                structureRangeY = generateRange(structure.getLocation().y, 32);
+
+                if (containsOverlap(tankRangeX, structureRangeX))
+                    isValidMovementX = false;
+
+                if (containsOverlap(tankRangeY, structureRangeY))
+                    isValidMovementY = false;
+
+                if (!isValidMovementX && !isValidMovementY) {
+                    isValidStructure = false;
+                    break;
+                }
+            }
+        }
+
+        for (Tank enemy : enemyTanks) {
+
+            if (enemy.isActive()) {
+                isValidTank = true;
+                isValidMovementX = true;
+                isValidMovementY = true;
+                enemyRangeX = generateRange(enemy.getLocation().x, 52);
+                enemyRangeY = generateRange(enemy.getLocation().y, 52);
+
+                if (containsOverlap(tankRangeX, enemyRangeX))
+                    isValidMovementX = false;
+
+                if (containsOverlap(tankRangeY, enemyRangeY))
+                    isValidMovementY = false;
+
+                if (!isValidMovementX && !isValidMovementY) {
+                    isValidTank = false;
+                    break;
+                }
+            }
+
+        }
+
+        return isValidStructure && isValidTank;
+    }
+
+    private boolean containsOverlap(ArrayList<Integer> tankRange, ArrayList<Integer> structureRange) {
+
+        for (Integer coordinate : tankRange)
+            if (structureRange.contains(coordinate)) {
+                return true;
+            }
+
+        return false;
+    }
+
+    public ArrayList<Integer> generateRange(int currentCord, int pixels) {
+
+        ArrayList<Integer> range = new ArrayList<>();
+        int limit = currentCord + pixels;
+
+        for (int i = currentCord; i < limit; i++)
+            range.add(i);
+
+        return range;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
+
     }
 
     @Override
@@ -244,19 +361,101 @@ public class Game implements KeyListener {
             } else {
                 windowRef.getContentPane().removeAll();
 
-                this.scenarioFactory = new Level1Factory();
+                this.scenarioFactory = new Level8Factory();
                 scenario = scenarioFactory.createScenario();
                 windowRef.getContentPane().add(scenario.getPanel());
                 windowRef.getContentPane().revalidate();
                 windowRef.getContentPane().repaint();
                 spawnTanks();
+                this.isGameStarted = true;
                 this.isStagePanel = false;
             }
+
+        } else if (keyCode == KeyEvent.VK_W) {
+            isMovingUp = true;
+        } else if (keyCode == KeyEvent.VK_A) {
+            isMovingLeft = true;
+        } else if (keyCode == KeyEvent.VK_S) {
+            isMovingDown = true;
+        } else if (keyCode == KeyEvent.VK_D) {
+            isMovingRight = true;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        int keyCode = e.getKeyCode();
 
+        if (keyCode == KeyEvent.VK_W) {
+            isMovingUp = false;
+        } else if (keyCode == KeyEvent.VK_A) {
+            isMovingLeft = false;
+        } else if (keyCode == KeyEvent.VK_S) {
+            isMovingDown = false;
+        } else if (keyCode == KeyEvent.VK_D) {
+            isMovingRight = false;
+        }
     }
+
+
+    public void startTankMovementThread() {
+
+        Thread movementThread = new Thread(() -> {
+
+            while (true)
+            {
+                try {
+                    if (isMovingRight) {
+
+                        if (validateMovement(generateRange(playerTank.getLocation().x+3, 52), generateRange(playerTank.getLocation().y, 52)))
+                        {
+                            playerTank.setOrientation(Orientation.Right);
+                            playerTank.executeCommand(new MoveCommand(playerTank));
+                            windowRef.getContentPane().revalidate();
+                            windowRef.getContentPane().repaint();
+                        }
+
+                    } else if (isMovingLeft) {
+
+                        if (validateMovement(generateRange(playerTank.getLocation().x-3, 52), generateRange(playerTank.getLocation().y, 52)))
+                        {
+                            playerTank.setOrientation(Orientation.Left);
+                            playerTank.executeCommand(new MoveCommand(playerTank));
+                            windowRef.getContentPane().revalidate();
+                            windowRef.getContentPane().repaint();
+                        }
+
+                    } else if (isMovingUp) {
+
+                        if (validateMovement(generateRange(playerTank.getLocation().x, 52), generateRange(playerTank.getLocation().y-3,52)))
+                        {
+                            playerTank.setOrientation(Orientation.Up);
+                            playerTank.executeCommand(new MoveCommand(playerTank));
+                            windowRef.getContentPane().revalidate();
+                            windowRef.getContentPane().repaint();
+                        }
+
+                    } else if (isMovingDown) {
+
+                        if (validateMovement(generateRange(playerTank.getLocation().x, 52), generateRange(playerTank.getLocation().y+3,52)))
+                        {
+                            playerTank.setOrientation(Orientation.Down);
+                            playerTank.executeCommand(new MoveCommand(playerTank));
+                            windowRef.getContentPane().revalidate();
+                            windowRef.getContentPane().repaint();
+                        }
+                    }
+
+                    Thread.sleep(10);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        movementThread.start();
+    }
+
+
 }
