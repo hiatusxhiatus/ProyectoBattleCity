@@ -67,4 +67,9 @@ public class GrassStructure implements IStructure {
 
     }
 
+    @Override
+    public void setType(StructureType type) {
+
+    }
+
 }

@@ -67,4 +67,9 @@ public class WallStructure implements IStructure {
 
     }
 
+    @Override
+    public void setType(StructureType type) {
+
+    }
+
 }

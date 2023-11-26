@@ -24,7 +24,7 @@ public class BulletObserver implements IObserver {
         label.setFont(new Font("Pixel NES", Font.PLAIN, 26));
         label.setForeground(Color.black);
         label.setText(Integer.toString(bulletCounter));
-        label.setBounds(location.x, location.y, 32, 32);
+        label.setBounds(location.x, location.y, 90, 32);
         label.setLocation(location);
 
     }

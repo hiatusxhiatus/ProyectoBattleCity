@@ -50,6 +50,7 @@ public class BrickStructure implements IStructure {
             case BottomLeftCorner -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickBLCorner.png"));
             case BottomRightCorner -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickBRCorner.png"));
         }
+
     }
 
     public void setNewState(Orientation orientation) {
@@ -164,8 +165,11 @@ public class BrickStructure implements IStructure {
     @Override
     public void setHP(int hp, Orientation orientation) {
         this.hp = hp;
-        setNewState(orientation);
-        setNewAppearance();
+
+        if (type.equals(StructureType.Brick)) {
+            setNewState(orientation);
+            setNewAppearance();
+        }
     }
 
     @Override
@@ -198,4 +202,13 @@ public class BrickStructure implements IStructure {
         //setNewStateAndAppearance(state);
     }
 
+    @Override
+    public void setType(StructureType type) {
+        this.type = type;
+
+        if (type.equals(StructureType.Wall))
+            this.label.setIcon(ImageCache.loadImage("src/main/java/imagenes/wall.png"));
+        else
+            this.label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brick.png"));
+    }
 }

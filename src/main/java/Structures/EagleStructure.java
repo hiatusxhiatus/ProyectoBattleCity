@@ -66,4 +66,9 @@ public class EagleStructure implements IStructure {
     public void setState(BrickState state) {
 
     }
+
+    @Override
+    public void setType(StructureType type) {
+
+    }
 }

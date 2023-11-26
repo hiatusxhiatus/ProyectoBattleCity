@@ -24,12 +24,12 @@ public class ThreadEnemyMove extends  Thread {
 
             while (isRunning && tank.isActive()) {
 
+                if (!tank.isPaused()) {
+
                     isWall = false;
 
-                    if (tank.getOrientation().equals(Orientation.Up))
-                    {
-                        if (tank.getLocation().y-5 > 0 && game.validateMovement(game.generateRange(tank.getLocation().x, 60), game.generateRange(tank.getLocation().y-5,60), false, tank.getOrientation(), false, tank))
-                        {
+                    if (tank.getOrientation().equals(Orientation.Up)) {
+                        if (tank.getLocation().y - 5 > 0 && game.validateMovement(game.generateRange(tank.getLocation().x, 60), game.generateRange(tank.getLocation().y - 5, 60), false, tank.getOrientation(), false, tank)) {
                             tank.setOrientation(Orientation.Up);
                             tank.executeCommand(new MoveCommand(tank));
                         } else
@@ -37,8 +37,7 @@ public class ThreadEnemyMove extends  Thread {
 
                     } else if (tank.getOrientation().equals(Orientation.Down)) {
 
-                        if (tank.getLocation().y+5+60 < 832 && game.validateMovement(game.generateRange(tank.getLocation().x, 60), game.generateRange(tank.getLocation().y+5,60), false, tank.getOrientation(), false, tank))
-                        {
+                        if (tank.getLocation().y + 5 + 60 < 832 && game.validateMovement(game.generateRange(tank.getLocation().x, 60), game.generateRange(tank.getLocation().y + 5, 60), false, tank.getOrientation(), false, tank)) {
                             tank.setOrientation(Orientation.Down);
                             tank.executeCommand(new MoveCommand(tank));
                         } else
@@ -46,8 +45,7 @@ public class ThreadEnemyMove extends  Thread {
 
                     } else if (tank.getOrientation().equals(Orientation.Left)) {
 
-                        if (tank.getLocation().x-5 > 0 && game.validateMovement(game.generateRange(tank.getLocation().x-5, 60), game.generateRange(tank.getLocation().y, 60), false, tank.getOrientation(), false, tank))
-                        {
+                        if (tank.getLocation().x - 5 > 0 && game.validateMovement(game.generateRange(tank.getLocation().x - 5, 60), game.generateRange(tank.getLocation().y, 60), false, tank.getOrientation(), false, tank)) {
                             tank.setOrientation(Orientation.Left);
                             tank.executeCommand(new MoveCommand(tank));
                         } else
@@ -55,22 +53,20 @@ public class ThreadEnemyMove extends  Thread {
 
                     } else if (tank.getOrientation().equals(Orientation.Right)) {
 
-                        if (tank.getLocation().x + 5 + 60 < 832 && game.validateMovement(game.generateRange(tank.getLocation().x + 5, 60), game.generateRange(tank.getLocation().y, 60), false, tank.getOrientation(), false, tank))
-                        {
+                        if (tank.getLocation().x + 5 + 60 < 832 && game.validateMovement(game.generateRange(tank.getLocation().x + 5, 60), game.generateRange(tank.getLocation().y, 60), false, tank.getOrientation(), false, tank)) {
                             tank.setOrientation(Orientation.Right);
                             tank.executeCommand(new MoveCommand(tank));
                         } else
                             isWall = true;
                     }
 
-                    if (isWall)
-                    {
+                    if (isWall) {
                         sleep(1000);
                         tank.setOrientation(game.randomOrientation());
                     }
-
-                    sleep(17);
                 }
+                    sleep(17);
+            }
 
         } catch (Exception e) {
             throw new RuntimeException(e);

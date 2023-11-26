@@ -17,4 +17,5 @@ public interface IStructure {
     StructureType getType();
     BrickState getState();
     void setState(BrickState state);
+    void setType(StructureType type);
 }

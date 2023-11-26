@@ -19,22 +19,24 @@ public class MoveCommand implements TankCommand {
     @Override
     public void execute() {
 
+        int speed = 4 + tank.getSpeed();
+
         switch (tank.getOrientation()) {
             case Right:
-                tank.setLocation((tank.getLocation().x + 5), tank.getLocation().y);
+                tank.setLocation((tank.getLocation().x + speed), tank.getLocation().y);
                 tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
                 break;
             case Left:
-                tank.setLocation((tank.getLocation().x - 5), tank.getLocation().y);
+                tank.setLocation((tank.getLocation().x - speed), tank.getLocation().y);
                 tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
                 break;
 
             case Up:
-                tank.setLocation((tank.getLocation().x), tank.getLocation().y - 5);
+                tank.setLocation((tank.getLocation().x), tank.getLocation().y - speed);
                 tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
                 break;
             case Down:
-                tank.setLocation((tank.getLocation().x), tank.getLocation().y + 5);
+                tank.setLocation((tank.getLocation().x), tank.getLocation().y + speed);
                 tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
                 break;
         }

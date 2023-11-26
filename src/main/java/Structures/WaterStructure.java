@@ -67,4 +67,9 @@ public class WaterStructure implements IStructure {
 
     }
 
+    @Override
+    public void setType(StructureType type) {
+
+    }
+
 }

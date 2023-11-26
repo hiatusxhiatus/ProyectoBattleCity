@@ -38,28 +38,28 @@ public class ThreadEnemyShoot extends Thread {
 
                             if (bullet.getOrientation().equals(Orientation.Up)) {
 
-                                if (bullet.getLocation().y -15 > 0 && game.validateMovement(game.generateRange(bullet.getLocation().x, 16), game.generateRange(bullet.getLocation().y -15, 16), true, bullet.getOrientation(), false, tank))
+                                if (bullet.getLocation().y -13 > 0 && game.validateMovement(game.generateRange(bullet.getLocation().x, 16), game.generateRange(bullet.getLocation().y -13, 16), true, bullet.getOrientation(), false, tank))
                                     tank.executeCommand(new ShootCommand(bullet));
                                 else
                                     bulletHit = true;
 
                             } else if (bullet.getOrientation().equals(Orientation.Down)) {
 
-                                if (bullet.getLocation().y +15 < 832 && game.validateMovement(game.generateRange(bullet.getLocation().x, 16), game.generateRange(bullet.getLocation().y +15, 16), true, bullet.getOrientation(), false, tank))
+                                if (bullet.getLocation().y +13 < 832 && game.validateMovement(game.generateRange(bullet.getLocation().x, 16), game.generateRange(bullet.getLocation().y +13, 16), true, bullet.getOrientation(), false, tank))
                                     tank.executeCommand(new ShootCommand(bullet));
                                 else
                                     bulletHit = true;
 
                             } else if (bullet.getOrientation().equals(Orientation.Left)) {
 
-                                if (bullet.getLocation().x -15 > 0 && game.validateMovement(game.generateRange(bullet.getLocation().x -15, 16), game.generateRange(bullet.getLocation().y, 16), true, bullet.getOrientation(), false, tank))
+                                if (bullet.getLocation().x -13 > 0 && game.validateMovement(game.generateRange(bullet.getLocation().x -13, 16), game.generateRange(bullet.getLocation().y, 16), true, bullet.getOrientation(), false, tank))
                                     tank.executeCommand(new ShootCommand(bullet));
                                 else
                                     bulletHit = true;
 
                             } else if (bullet.getOrientation().equals(Orientation.Right)) {
 
-                                if (bullet.getLocation().x +15 < 832 && game.validateMovement(game.generateRange(bullet.getLocation().x +15, 16), game.generateRange(bullet.getLocation().y, 16), true, bullet.getOrientation(), false, tank))
+                                if (bullet.getLocation().x +13 < 832 && game.validateMovement(game.generateRange(bullet.getLocation().x +13, 16), game.generateRange(bullet.getLocation().y, 16), true, bullet.getOrientation(), false, tank))
                                     tank.executeCommand(new ShootCommand(bullet));
                                 else
                                     bulletHit = true;

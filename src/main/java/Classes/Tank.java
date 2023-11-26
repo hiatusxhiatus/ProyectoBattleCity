@@ -14,6 +14,7 @@ public class Tank implements IPrototype, IObservable {
     private int speed;
     private int shootingRate;
     private boolean isActive;
+    private boolean isPaused;
     private boolean damaged;
     private Point location;
     private JLabel label;
@@ -31,6 +32,7 @@ public class Tank implements IPrototype, IObservable {
         this.orientation = Orientation.Down;
         this.isActive = false;
         this.damaged = false;
+        this.isPaused = false;
         this.observers = new ArrayList<>();
         setUpLabel();
     }
@@ -96,7 +98,8 @@ public class Tank implements IPrototype, IObservable {
 
     public void setHp(int hp) {
 
-        setDamaged();
+        if (tankType.equals(TankType.Ally))
+            setDamaged();
 
         this.hp = hp;
         if (hp <= 0) {
@@ -272,5 +275,13 @@ public class Tank implements IPrototype, IObservable {
             observers.remove(observers.get(0));
         }
 
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public void setPaused(boolean paused) {
+        isPaused = paused;
     }
 }

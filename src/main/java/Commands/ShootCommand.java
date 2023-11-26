@@ -21,10 +21,10 @@ public class ShootCommand implements TankCommand {
     public void execute() {
 
         switch (bullet.getOrientation()) {
-            case Up -> bullet.setLocation(bullet.getLocation().x, bullet.getLocation().y-15);
-            case Down -> bullet.setLocation(bullet.getLocation().x, bullet.getLocation().y+15);
-            case Left -> bullet.setLocation(bullet.getLocation().x-15, bullet.getLocation().y);
-            case Right -> bullet.setLocation(bullet.getLocation().x+15, bullet.getLocation().y);
+            case Up -> bullet.setLocation(bullet.getLocation().x, bullet.getLocation().y-13);
+            case Down -> bullet.setLocation(bullet.getLocation().x, bullet.getLocation().y+13);
+            case Left -> bullet.setLocation(bullet.getLocation().x-13, bullet.getLocation().y);
+            case Right -> bullet.setLocation(bullet.getLocation().x+13, bullet.getLocation().y);
         }
     }
 
