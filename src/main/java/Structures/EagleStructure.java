@@ -1,5 +1,6 @@
 package Structures;
 
+import Classes.ImageCache;
 import Enums.BrickState;
 import Enums.Orientation;
 import Enums.StructureType;
@@ -25,7 +26,7 @@ public class EagleStructure implements IStructure {
 
     public void setUpLabel() {
 
-        label.setIcon(new ImageIcon("src/main/java/imagenes/eagle.png"));
+        label.setIcon(ImageCache.loadImage("src/main/java/imagenes/eagle.png"));
         label.setBounds(location.x, location.y, 64, 64);
         label.setLocation(location);
 

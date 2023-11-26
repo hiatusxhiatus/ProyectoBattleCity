@@ -1,18 +1,26 @@
 
 package Scenarios;
 
+import Classes.ImageCache;
 import Factories.*;
 import Interfaces.IScenario;
 import Interfaces.IStructure;
+import Observers.BulletObserver;
+import Observers.CardObserver;
+import Observers.TankObserver;
+
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
 public class Level7 implements IScenario {
 
-    ArrayList<IStructure> structures;
-    IStructure eagle;
-    StructureFactory structureFactory;
+    private ArrayList<IStructure> structures;
+    private ArrayList<TankObserver> tanksLeft;
+    private ArrayList<CardObserver> cardsGotten;
+    private BulletObserver bulletCounter;
+    private IStructure eagle;
+    private StructureFactory structureFactory;
     private JPanel panelWindow;
     private JPanel panelGame;
 
@@ -24,8 +32,17 @@ public class Level7 implements IScenario {
     public void initScenario() {
 
         structures = new ArrayList<>();
+        tanksLeft = new ArrayList<>();
+        cardsGotten = new ArrayList<>();
         panelWindow = new JPanel();
         panelGame = new JPanel();
+        labelI = new JLabel();
+        labelHPIcon = new JLabel();
+        labelHP = new JLabel();
+        labelP = new JLabel();
+        labelFlag = new JLabel();
+        labelLevel = new JLabel();
+        labelBullet = new JLabel();
 
         panelWindow.setBackground(Color.gray);
         panelWindow.setForeground(Color.white);
@@ -264,12 +281,120 @@ public class Level7 implements IScenario {
 
         panelGame.add(eagle.getLabel());
 
+        tanksLeft.add(new TankObserver(new Point(925, 270)));
+        tanksLeft.add(new TankObserver(new Point(890, 270)));
+        tanksLeft.add(new TankObserver(new Point(960, 235)));
+        tanksLeft.add(new TankObserver(new Point(925, 235)));
+        tanksLeft.add(new TankObserver(new Point(890, 235)));
+        tanksLeft.add(new TankObserver(new Point(960, 200)));
+        tanksLeft.add(new TankObserver(new Point(925, 200)));
+        tanksLeft.add(new TankObserver(new Point(890, 200)));
+        tanksLeft.add(new TankObserver(new Point(960, 165)));
+        tanksLeft.add(new TankObserver(new Point(925, 165)));
+        tanksLeft.add(new TankObserver(new Point(890, 165)));
+        tanksLeft.add(new TankObserver(new Point(960, 130)));
+        tanksLeft.add(new TankObserver(new Point(925, 130)));
+        tanksLeft.add(new TankObserver(new Point(890, 130)));
+        tanksLeft.add(new TankObserver(new Point(960, 95)));
+        tanksLeft.add(new TankObserver(new Point(925, 95)));
+        tanksLeft.add(new TankObserver(new Point(890, 95)));
+        tanksLeft.add(new TankObserver(new Point(960, 60)));
+        tanksLeft.add(new TankObserver(new Point(925, 60)));
+        tanksLeft.add(new TankObserver(new Point(890, 60)));
+        cardsGotten.add(new CardObserver(new Point(945, 660)));
+        cardsGotten.add(new CardObserver(new Point(875, 660)));
+        cardsGotten.add(new CardObserver(new Point(945, 595)));
+        cardsGotten.add(new CardObserver(new Point(875, 595)));
+        bulletCounter = new BulletObserver(new Point(940, 780));
+
+        //---- labelI ----
+        labelI.setText("I");
+        labelI.setFont(new Font("Pixel NES", Font.PLAIN, 40));
+        labelI.setForeground(Color.black);
+        panelWindow.add(labelI);
+        labelI.setBounds(905, 330, 30, 35);
+
+        //---- labelHPIcon ----
+        labelHPIcon.setIcon(ImageCache.loadImage("src/main/java/imagenes/hp.png"));
+        labelHPIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        panelWindow.add(labelHPIcon);
+        labelHPIcon.setBounds(905, 370, 32, 32);
+
+        //---- labelHP ----
+        labelHP.setText("3");
+        labelHP.setFont(new Font("Pixel NES", Font.PLAIN, 40));
+        labelHP.setForeground(Color.black);
+        panelWindow.add(labelHP);
+        labelHP.setBounds(940, 365, 35, 35);
+
+        //---- labelP ----
+        labelP.setText("P");
+        labelP.setFont(new Font("Pixel NES", Font.PLAIN, 40));
+        labelP.setForeground(Color.black);
+        panelWindow.add(labelP);
+        labelP.setBounds(940, 330, 40, 35);
+
+        //---- labelFlag ----
+        labelFlag.setIcon(ImageCache.loadImage("src/main/java/imagenes/flag.png"));
+        labelFlag.setHorizontalAlignment(SwingConstants.CENTER);
+        panelWindow.add(labelFlag);
+        labelFlag.setBounds(905, 440, 64, 64);
+
+        //---- labelLevel ----
+        labelLevel.setText("8");
+        labelLevel.setFont(new Font("Pixel NES", Font.PLAIN, 40));
+        labelLevel.setForeground(Color.black);
+        panelWindow.add(labelLevel);
+        labelLevel.setBounds(940, 505, 35, 35);
+
+        //---- labelBullet ----
+        labelBullet.setIcon(ImageCache.loadImage("src/main/java/imagenes/bulletRIGHT.png"));
+        labelBullet.setHorizontalAlignment(SwingConstants.CENTER);
+        panelWindow.add(labelBullet);
+        labelBullet.setBounds(905, 780, 32, 32);
+
         for (IStructure structure : structures)
             panelGame.add(structure.getLabel());
+
+        for (TankObserver tank : tanksLeft)
+            panelWindow.add(tank.getLabel());
+
+        for (CardObserver card : cardsGotten)
+            panelWindow.add(card.getLabel());
+
+        panelWindow.add(bulletCounter.getLabel());
 
         panelWindow.add(panelGame);
         panelGame.setBounds(0, 0, 832, 832);
 
+    }
+
+    private JLabel labelI;
+    private JLabel labelHPIcon;
+    private JLabel labelHP;
+    private JLabel labelP;
+    private JLabel labelFlag;
+    private JLabel labelLevel;
+    private JLabel labelBullet;
+
+    @Override
+    public ArrayList<CardObserver> getCardsGotten() {
+        return cardsGotten;
+    }
+
+    @Override
+    public BulletObserver getBulletCounter() {
+        return bulletCounter;
+    }
+
+    @Override
+    public void setHP(int hp) {
+        labelHP.setText(Integer.toString(hp));
+    }
+
+    @Override
+    public ArrayList<TankObserver> getTanksLeft() {
+        return tanksLeft;
     }
 
     @Override

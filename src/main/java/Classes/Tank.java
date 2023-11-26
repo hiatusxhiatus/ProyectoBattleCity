@@ -1,21 +1,25 @@
 package Classes;
 
+import Enums.Keys;
 import Enums.Orientation;
 import Enums.TankType;
 import Interfaces.*;
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
-public class Tank implements IPrototype {
+public class Tank implements IPrototype, IObservable {
 
     private int hp;
     private int speed;
     private int shootingRate;
     private boolean isActive;
+    private boolean damaged;
     private Point location;
     private JLabel label;
     private TankType tankType;
     private Orientation orientation;
+    private ArrayList<IObserver> observers;
 
     public Tank(int hp, int speed, int shootingRate, JLabel label, TankType tankType) {
         this.hp = hp;
@@ -24,8 +28,10 @@ public class Tank implements IPrototype {
         this.label = label;
         this.tankType = tankType;
         this.location = new Point(0,0);
-        this.orientation = Orientation.Up;
+        this.orientation = Orientation.Down;
         this.isActive = false;
+        this.damaged = false;
+        this.observers = new ArrayList<>();
         setUpLabel();
     }
 
@@ -44,15 +50,18 @@ public class Tank implements IPrototype {
     }
 
     public void setUpLabel() {
+        ImageIcon tankImage = null;
 
         switch (tankType) {
-            case Ally -> label.setIcon(new ImageIcon("src/main/java/imagenes/yellowTankUP.png"));
-            case Simple -> label.setIcon(new ImageIcon("src/main/java/imagenes/simpleTankDOWN.png"));
-            case FastMove -> label.setIcon(new ImageIcon("src/main/java/imagenes/fastMoveTankDOWN.png"));
-            case FastShoot -> label.setIcon(new ImageIcon("src/main/java/imagenes/fastShootTankDOWN.png"));
-            case Resistant -> label.setIcon(new ImageIcon("src/main/java/imagenes/resistantTankDOWN.png"));
+            case Ally -> tankImage = ImageCache.loadImage("src/main/java/imagenes/yellowTankUP.png");
+            case Simple -> tankImage = ImageCache.loadImage("src/main/java/imagenes/simpleTankDOWN.png");
+            case FastMove -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastMoveTankDOWN.png");
+            case FastShoot -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastShootTankDOWN.png");
+            case Resistant -> tankImage = ImageCache.loadImage("src/main/java/imagenes/resistantTankDOWN.png");
+            case Red -> tankImage = ImageCache.loadImage("src/main/java/imagenes/redTankDOWN.gif");
         }
 
+        label.setIcon(tankImage);
         label.setBounds(0, 0, 52, 52);
         label.setLocation(0,0);
     }
@@ -86,7 +95,32 @@ public class Tank implements IPrototype {
     }
 
     public void setHp(int hp) {
+
+        setDamaged();
+
         this.hp = hp;
+        if (hp <= 0) {
+            isActive = false;
+        }
+    }
+
+    public void setDamaged() {
+
+        Thread damaged = new Thread(() -> {
+
+            try {
+                this.damaged = true;
+                Thread.sleep(3000);
+                this.damaged = false;
+
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+
+        damaged.start();
+
     }
 
     public int getSpeed() {
@@ -122,7 +156,10 @@ public class Tank implements IPrototype {
     }
 
     public void setLocation(int x, int y) {
-        label.setBounds(x, y, 52, 52);
+        if (tankType.equals(TankType.Ally))
+            label.setBounds(x, y, 52, 52);
+        else label.setBounds(x, y, 60, 60);
+
         this.location = new Point(x, y);
     }
 
@@ -140,16 +177,73 @@ public class Tank implements IPrototype {
 
     public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
+        ImageIcon tankImage = null;
 
         if (tankType.equals(TankType.Ally))
         {
-            switch (orientation) {
-                case Right -> label.setIcon(new ImageIcon("src/main/java/imagenes/yellowTankRIGHT.png"));
-                case Left -> label.setIcon(new ImageIcon("src/main/java/imagenes/yellowTankLEFT.png"));
-                case Down -> label.setIcon(new ImageIcon("src/main/java/imagenes/yellowTankDOWN.png"));
-                case Up -> label.setIcon(new ImageIcon("src/main/java/imagenes/yellowTankUP.png"));
+            if (!damaged) {
+                switch (orientation) {
+                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/yellowTankRIGHT.png");
+                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/yellowTankLEFT.png");
+                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/yellowTankDOWN.png");
+                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/yellowTankUP.png");
+                }
+            } else {
+                switch (orientation) {
+                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/damagedRIGHT.gif");
+                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/damagedLEFT.gif");
+                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/damagedDOWN.gif");
+                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/damagedUP.gif");
+                }
             }
+
+        } else {
+
+            if (tankType.equals(TankType.Simple))
+            {
+                switch (orientation) {
+                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/simpleTankRIGHT.png");
+                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/simpleTankLEFT.png");
+                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/simpleTankDOWN.png");
+                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/simpleTankUP.png");
+                }
+
+            } else if (tankType.equals(TankType.FastMove)) {
+                switch (orientation) {
+                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastMoveTankRIGHT.png");
+                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastMoveTankLEFT.png");
+                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastMoveTankDOWN.png");
+                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastMoveTankUP.png");
+                }
+
+            } else if (tankType.equals(TankType.FastShoot)) {
+                switch (orientation) {
+                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastShootTankRIGHT.png");
+                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastShootTankLEFT.png");
+                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastShootTankDOWN.png");
+                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastShootTankUP.png");
+                }
+
+            } else if (tankType.equals(TankType.Resistant)){
+                switch (orientation) {
+                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/resistantTankRIGHT.png");
+                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/resistantTankLEFT.png");
+                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/resistantTankDOWN.png");
+                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/resistantTankUP.png");
+                }
+
+            } else
+                switch (orientation) {
+                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/redTankRIGHT.gif");
+                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/redTankLEFT.gif");
+                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/redTankDOWN.gif");
+                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/redTankUP.gif");
+                }
+
+            label.setBounds(location.x, location.y, 60,60);
         }
+
+        label.setIcon(tankImage);
     }
 
     public boolean isActive() {
@@ -158,5 +252,25 @@ public class Tank implements IPrototype {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    @Override
+    public void addObserver(IObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(IObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+
+        if (!observers.isEmpty()) {
+            observers.get(0).update();
+            observers.remove(observers.get(0));
+        }
+
     }
 }

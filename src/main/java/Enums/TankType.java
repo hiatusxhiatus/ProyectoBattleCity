@@ -6,6 +6,7 @@ public enum TankType {
     Simple,
     FastMove,
     FastShoot,
-    Resistant
+    Resistant,
+    Red
 
 }

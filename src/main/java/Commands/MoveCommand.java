@@ -19,27 +19,27 @@ public class MoveCommand implements TankCommand {
     @Override
     public void execute() {
 
-        if (tank.getOrientation().equals(Orientation.Right)) {
+        switch (tank.getOrientation()) {
+            case Right:
+                tank.setLocation((tank.getLocation().x + 5), tank.getLocation().y);
+                tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
+                break;
+            case Left:
+                tank.setLocation((tank.getLocation().x - 5), tank.getLocation().y);
+                tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
+                break;
 
-            tank.setLocation((tank.getLocation().x+3), tank.getLocation().y);
-            tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
-            tank.getLabel().setIcon(new ImageIcon("src/main/java/imagenes/yellowTankRIGHT.png"));
-
-        } else if (tank.getOrientation().equals(Orientation.Left)) {
-
-            tank.setLocation((tank.getLocation().x-3), tank.getLocation().y);
-            tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
-            tank.getLabel().setIcon(new ImageIcon("src/main/java/imagenes/yellowTankLEFT.png"));
-
-        } else if (tank.getOrientation().equals(Orientation.Up)) {
-            tank.setLocation((tank.getLocation().x), tank.getLocation().y-3);
-            tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
-            tank.getLabel().setIcon(new ImageIcon("src/main/java/imagenes/yellowTankUP.png"));
-
-        } else {
-            tank.setLocation((tank.getLocation().x), tank.getLocation().y+3);
-            tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
-            tank.getLabel().setIcon(new ImageIcon("src/main/java/imagenes/yellowTankDOWN.png"));
+            case Up:
+                tank.setLocation((tank.getLocation().x), tank.getLocation().y - 5);
+                tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
+                break;
+            case Down:
+                tank.setLocation((tank.getLocation().x), tank.getLocation().y + 5);
+                tank.getLabel().getLocation().setLocation(tank.getLocation().x, tank.getLocation().y);
+                break;
         }
+
     }
 }
+
+

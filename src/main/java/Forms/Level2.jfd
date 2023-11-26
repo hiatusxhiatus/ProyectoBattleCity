@@ -5,7 +5,7 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 			name: "panelWindow"
-			"background": sfield java.awt.Color gray
+			"background": new java.awt.Color( 116, 116, 116, 255 )
 			"foreground": new java.awt.Color( 255, 255, 255, 255 )
 			"preferredSize": new java.awt.Dimension( 1024, 832 )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
@@ -656,16 +656,6 @@ new FormModel {
 					"height": 32
 					"x": 608
 					"y": 224
-				} )
-				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "label168"
-					"icon": #SwingIcon1
-					"horizontalAlignment": 0
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"width": 32
-					"height": 32
-					"x": 640
-					"y": 256
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label169"
@@ -1752,6 +1742,327 @@ new FormModel {
 				"height": 832
 				"x": 0
 				"y": 0
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank20"
+				"icon": &SwingIcon4 new com.jformdesigner.model.SwingIcon( 0, "/imagenes/tank.png" )
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 890
+				"y": 60
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank19"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 925
+				"y": 60
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank18"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 960
+				"y": 60
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank17"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 890
+				"y": 95
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank16"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 925
+				"y": 95
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank15"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 960
+				"y": 95
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank14"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 890
+				"y": 130
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank13"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 925
+				"y": 130
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank12"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 960
+				"y": 130
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank11"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 890
+				"y": 165
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank10"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 925
+				"y": 165
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank9"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 960
+				"y": 165
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank8"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 890
+				"y": 200
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank7"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 925
+				"y": 200
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank6"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 960
+				"y": 200
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank5"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 890
+				"y": 235
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank4"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 925
+				"y": 235
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank3"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 960
+				"y": 235
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank2"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 890
+				"y": 270
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "tank1"
+				"icon": #SwingIcon4
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 925
+				"y": 270
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "labelI"
+				"text": "I"
+				"font": &Font0 new java.awt.Font( "Pixel NES", 0, 40 )
+				"foreground": &Color0 new java.awt.Color( 0, 0, 0, 255 )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 905
+				"y": 330
+				"width": 30
+				"height": 35
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "labelHPIcon"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/imagenes/hp.png" )
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 905
+				"y": 370
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "labelHP"
+				"text": "3"
+				"font": #Font0
+				"foreground": #Color0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 35
+				"height": 35
+				"x": 940
+				"y": 365
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "labelP"
+				"text": "P"
+				"font": #Font0
+				"foreground": #Color0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 40
+				"height": 35
+				"x": 940
+				"y": 330
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "labelFlag"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/imagenes/flag.png" )
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 64
+				"height": 64
+				"x": 905
+				"y": 440
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "labelLevel"
+				"text": "8"
+				"font": #Font0
+				"foreground": #Color0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 35
+				"height": 35
+				"x": 940
+				"y": 505
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "labelBullet"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/imagenes/bulletRIGHT.png" )
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 32
+				"height": 32
+				"x": 905
+				"y": 780
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "labelBulletCount"
+				"text": "0"
+				"font": new java.awt.Font( "Pixel NES", 0, 26 )
+				"foreground": #Color0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 60
+				"height": 32
+				"x": 940
+				"y": 780
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "card1"
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 64
+				"height": 64
+				"x": 875
+				"y": 595
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "card2"
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 64
+				"height": 64
+				"x": 945
+				"y": 595
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "card3"
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 64
+				"height": 64
+				"x": 875
+				"y": 660
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "card4"
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 64
+				"height": 64
+				"x": 945
+				"y": 660
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 6 )

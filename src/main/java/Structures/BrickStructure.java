@@ -28,7 +28,6 @@ public class BrickStructure implements IStructure {
     }
 
     public void setUpLabel() {
-
         label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brick.png"));
         label.setBounds(location.x, location.y, 32, 32);
         label.setLocation(location);
@@ -38,32 +37,20 @@ public class BrickStructure implements IStructure {
     public void setNewAppearance() {
 
         switch (state) {
-            case Top -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickT.png"));
-            case Left -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickL.png"));
-            case Right -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickR.png"));
-            case Bottom -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickB.png"));
-            case TopLeft -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickTL.png"));
-            case TopRight -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickTR.png"));
-            case BottomLeft -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickBL.png"));
-            case BottomRight -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickBR.png"));
-            case TopLeftCorner -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickTLCorner.png"));
-            case TopRightCorner -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickTRCorner.png"));
-            case BottomLeftCorner -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickBLCorner.png"));
-            case BottomRightCorner -> label.setIcon(new ImageIcon("src/main/java/imagenes/brickBRCorner.png"));
+            case Top -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickT.png"));
+            case Left -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickL.png"));
+            case Right -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickR.png"));
+            case Bottom -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickB.png"));
+            case TopLeft -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickTL.png"));
+            case TopRight -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickTR.png"));
+            case BottomLeft -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickBL.png"));
+            case BottomRight -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickBR.png"));
+            case TopLeftCorner -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickTLCorner.png"));
+            case TopRightCorner -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickTRCorner.png"));
+            case BottomLeftCorner -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickBLCorner.png"));
+            case BottomRightCorner -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickBRCorner.png"));
         }
     }
-
-    /*
-                if (orientation.equals(Orientation.Up))
-                    state = BrickState.
-                else if (orientation.equals(Orientation.Down))
-                    state = BrickState.
-                else if (orientation.equals(Orientation.Left))
-                    state = BrickState.
-                else if (orientation.equals(Orientation.Right))
-                    state = BrickState.
-                break;
-     */
 
     public void setNewState(Orientation orientation) {
 
@@ -101,9 +88,9 @@ public class BrickStructure implements IStructure {
                 break;
             case Left:
                 if (orientation.equals(Orientation.Up))
-                    state = BrickState.TopLeft;
-                else if (orientation.equals(Orientation.Down))
                     state = BrickState.BottomLeft;
+                else if (orientation.equals(Orientation.Down))
+                    state = BrickState.TopLeft;
                 else if (orientation.equals(Orientation.Left))
                     state = BrickState.Destroyed;
                 else if (orientation.equals(Orientation.Right))

@@ -14,14 +14,12 @@ import Interfaces.IScenario;
 import Interfaces.IStructure;
 import Scenarios.StagePanel;
 import Scenarios.Window;
-
+import Observers.TankObserver;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Timer;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Thread.sleep;
@@ -32,6 +30,9 @@ public class Game implements KeyListener {
     private ScenarioFactory scenarioFactory;
     private ArrayList<IObserver> keyObservers;
     private IScenario scenario;
+    private AtomicBoolean bulletHit = new AtomicBoolean(false);
+    private Thread bulletThread = null;
+    private Thread movementThread = null;
     private long lastSpacePressTime = 0;
     private boolean isStagePanel;
     private boolean isGameStarted;
@@ -39,13 +40,15 @@ public class Game implements KeyListener {
     private boolean isMovingDown = false;
     private boolean isMovingLeft = false;
     private boolean isMovingRight = false;
-    private boolean isShooting = false;
+    private boolean gameRunning = true;
+    private int activeEnemyTanks = 0;
 
     private Tank allyTank;
     private Tank simpleTank;
     private Tank fastMoveTank;
     private Tank fastShootTank;
     private Tank resistantTank;
+    private Tank redTank;
 
     private ArrayList<Tank> enemyTanks;
     private Tank playerTank;
@@ -66,7 +69,6 @@ public class Game implements KeyListener {
         windowRef.getContentPane().add(scenario.getPanel());
         windowRef.revalidate();
         windowRef.repaint();
-
         windowRef.addKeyListener(this);
 
         this.allyTank = new Tank(3,1,2, new JLabel(), TankType.Ally);
@@ -74,6 +76,7 @@ public class Game implements KeyListener {
         this.fastMoveTank = new Tank(1,3,2,new JLabel(),TankType.FastMove);
         this.fastShootTank = new Tank(1,1,1,new JLabel(),TankType.FastShoot);
         this.resistantTank = new Tank(4,1,2,new JLabel(),TankType.Resistant);
+        this.redTank = new Tank(2,1,2,new JLabel(),TankType.Red);
 
     }
 
@@ -86,31 +89,58 @@ public class Game implements KeyListener {
         scenario.getPanelGame().add(playerTank.getLabel());
         scenario.getPanelGame().revalidate();
         scenario.getPanelGame().repaint();
-        startTankMovementThread();
         playerTank.setActive(true);
 
-        getEnemyTanks(3);
+        for (TankObserver tankObserver : scenario.getTanksLeft()) {
+            playerTank.addObserver(tankObserver);
+        }
 
-        Timer timer = new Timer();
+        addRandomEnemyTanks();
 
         new Thread(() -> {
+
             try {
-                for (Tank tank : enemyTanks) {
+                int i = 0;
 
-                    sleep(1000);
-                    randomSpawnPoint(tank);
-                    scenario.getPanelGame().add(tank.getLabel());
-                    scenario.getPanelGame().revalidate();
-                    scenario.getPanelGame().repaint();
-                    tank.setOrientation(Orientation.Down);
-                    tank.setActive(true);
+                do {
+                    if (activeEnemyTanks < 5)
+                    {
+                        activeEnemyTanks++;
+                        Tank tank = enemyTanks.get(i++);
+                        tank.setOrientation(Orientation.Down);
+                        tank.setActive(true);
+                        new ThreadEnemyMove(this, tank).start();
+                        new ThreadEnemyShoot(tank, this).start();
+                        randomSpawnPoint(tank);
+                        scenario.getPanelGame().add(tank.getLabel());
+                        sleep(4000);
+                    }
 
-                }
+                } while (i < enemyTanks.size());
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
 
+        startTankMovementThread();
+
+    }
+
+    public Orientation randomOrientation() {
+
+        Random random = new Random();
+
+        int rand = random.nextInt(4);
+
+        switch (rand) {
+            case 0: return Orientation.Up;
+            case 1: return Orientation.Down;
+            case 2: return Orientation.Left;
+            case 3: return Orientation.Right;
+        }
+
+        return Orientation.Down;
     }
 
     public void randomSpawnPoint(Tank tank) {
@@ -129,7 +159,11 @@ public class Game implements KeyListener {
             double distance = calculateDistance(playerTank.getLocation(), new Point(x, y));
 
             if (distance >= 64 && isValidSpawn(x, y)) {
-                tank.getLabel().setBounds(x, y, 52, 52);
+                if (tank.getTankType().equals(TankType.Ally))
+                    tank.getLabel().setBounds(x, y, 52, 52);
+                else
+                    tank.getLabel().setBounds(x, y, 60, 60);
+
                 tank.getLabel().setLocation(x, y);
                 tank.setLocation(new Point(x, y));
                 isValid = true;
@@ -196,86 +230,126 @@ public class Game implements KeyListener {
             return (validSpawn && noTank) || (allGrass && noTank);
         }
 
-    public void getEnemyTanks(int level) {
+    public void addRandomEnemyTanks() {
+        Random random = new Random();
+        int redTanksCount = random.nextInt(3) + 2; // Genera un número aleatorio entre 2 y 4
+        redTanksCount = Math.min(redTanksCount, 20); // Limita el máximo de redTank a 20
 
-        this.enemyTanks.clear();
-
-        switch (level) {
-            case 1:
-                for (int i = 0; i < 20; i++)
-                    this.enemyTanks.add(simpleTank.clone());
-                break;
-            case 2:
-                for (int i = 0; i < 15; i++)
-                    this.enemyTanks.add(simpleTank.clone());
-                for (int i = 0; i < 5; i++)
-                    this.enemyTanks.add(fastShootTank.clone());
-                break;
-            case 3:
-                for (int i = 0; i < 10; i++)
-                    this.enemyTanks.add(simpleTank.clone());
-                for (int i = 0; i < 5; i++)
-                    this.enemyTanks.add(fastShootTank.clone());
-                for (int i = 0; i < 5; i++)
-                    this.enemyTanks.add(fastMoveTank.clone());
-                break;
-            case 4:
-                for (int i = 0; i < 5; i++)
-                    this.enemyTanks.add(simpleTank.clone());
-                for (int i = 0; i < 5; i++)
-                    this.enemyTanks.add(fastShootTank.clone());
-                for (int i = 0; i < 5; i++)
-                    this.enemyTanks.add(fastMoveTank.clone());
-                for (int i = 0; i < 5; i++)
-                    this.enemyTanks.add(resistantTank.clone());
-                break;
-            case 5:
-                for (int i = 0; i < 3; i++)
-                    this.enemyTanks.add(simpleTank.clone());
-                for (int i = 0; i < 6; i++)
-                    this.enemyTanks.add(fastShootTank.clone());
-                for (int i = 0; i < 6; i++)
-                    this.enemyTanks.add(fastMoveTank.clone());
-                for (int i = 0; i < 5; i++)
-                    this.enemyTanks.add(resistantTank.clone());
-                break;
-            case 6:
-                for (int i = 0; i < 7; i++)
-                    this.enemyTanks.add(fastShootTank.clone());
-                for (int i = 0; i < 7; i++)
-                    this.enemyTanks.add(fastMoveTank.clone());
-                for (int i = 0; i < 6; i++)
-                    this.enemyTanks.add(resistantTank.clone());
-                break;
-            case 7:
-                for (int i = 0; i < 5; i++)
-                    this.enemyTanks.add(fastShootTank.clone());
-                for (int i = 0; i < 8; i++)
-                    this.enemyTanks.add(fastMoveTank.clone());
-                for (int i = 0; i < 7; i++)
-                    this.enemyTanks.add(resistantTank.clone());
-                break;
-            case 8:
-                for (int i = 0; i < 3; i++)
-                    this.enemyTanks.add(fastShootTank.clone());
-                for (int i = 0; i < 5; i++)
-                    this.enemyTanks.add(fastMoveTank.clone());
-                for (int i = 0; i < 12; i++)
-                    this.enemyTanks.add(resistantTank.clone());
-                break;
+        for (int i = 0; i < redTanksCount; i++) {
+            if (this.enemyTanks.size() < 20) {
+                this.enemyTanks.add(redTank.clone());
+            }
         }
+
+        while (this.enemyTanks.size() < 20) {
+            int tankType = random.nextInt(4); // Considerando que tienes 4 tipos de tanques
+            switch (tankType) {
+                case 0:
+                    this.enemyTanks.add(simpleTank.clone());
+                    break;
+                case 1:
+                    this.enemyTanks.add(fastShootTank.clone());
+                    break;
+                case 2:
+                    this.enemyTanks.add(fastMoveTank.clone());
+                    break;
+                case 3:
+                    this.enemyTanks.add(resistantTank.clone());
+                    break;
+                // Puedes añadir más casos si tienes más tipos de tanques
+            }
+        }
+
+        Collections.shuffle(enemyTanks);
     }
 
-    public synchronized boolean validateMovement(ArrayList<Integer> subjectRangeX, ArrayList<Integer> subjectRangeY, boolean isBullet, Orientation orientation) {
+    public synchronized boolean validateMovement(ArrayList<Integer> subjectRangeX, ArrayList<Integer> subjectRangeY, boolean isBullet, Orientation orientation, boolean isPlayer, Tank tank) {
 
         boolean isValidStructure = true;
         boolean isValidTank = true;
-        boolean isValidMovementX;
-        boolean isValidMovementY;
+        boolean isValidMovementX = true;
+        boolean isValidMovementY = true;
         ArrayList<Integer> structureRangeX;
         ArrayList<Integer> structureRangeY;
         ArrayList<Integer> enemyRangeX;
         ArrayList<Integer> enemyRangeY;
+        ArrayList<Integer> playerRangeX;
+        ArrayList<Integer> playerRangeY;
+
+
+        if (isBullet && !isPlayer) {
+
+            playerRangeX = generateRange(playerTank.getLocation().x, 52);
+            playerRangeY = generateRange(playerTank.getLocation().y, 52);
+
+            if (containsOverlap(subjectRangeX, playerRangeX))
+                isValidMovementX = false;
+
+            if (containsOverlap(subjectRangeY, playerRangeY))
+                isValidMovementY = false;
+
+            if (!isValidMovementX && !isValidMovementY) {
+                playerTank.setHp(playerTank.getHp() - 1);
+                scenario.setHP(playerTank.getHp());
+
+                if (!playerTank.isActive()) {
+                    scenario.getPanelGame().remove(playerTank.getLabel());
+                    gameRunning = false;
+                }
+                return false;
+            }
+
+        } else if (!isBullet && !isPlayer) {
+
+            playerRangeX = generateRange(playerTank.getLocation().x, 52);
+            playerRangeY = generateRange(playerTank.getLocation().y, 52);
+
+            if (containsOverlap(subjectRangeX, playerRangeX))
+                isValidMovementX = false;
+
+            if (containsOverlap(subjectRangeY, playerRangeY))
+                isValidMovementY = false;
+
+            if (!isValidMovementX && !isValidMovementY) {
+                return false;
+            }
+
+        }
+
+        for (Tank enemy : enemyTanks) {
+
+            if (!enemy.equals(tank) && enemy.isActive()) {
+                isValidTank = true;
+                isValidMovementX = true;
+                isValidMovementY = true;
+                enemyRangeX = generateRange(enemy.getLocation().x, 60);
+                enemyRangeY = generateRange(enemy.getLocation().y, 60);
+
+                if (containsOverlap(subjectRangeX, enemyRangeX))
+                    isValidMovementX = false;
+
+                if (containsOverlap(subjectRangeY, enemyRangeY))
+                    isValidMovementY = false;
+
+                if (isBullet && isPlayer && !isValidMovementX && !isValidMovementY) {
+                    enemy.setHp(enemy.getHp() - 1);
+
+                    if (!enemy.isActive()) {
+                        scenario.getPanelGame().remove(enemy.getLabel());
+                        tank.notifyObservers();
+                        enemy.setActive(false);
+                        activeEnemyTanks--;
+                    }
+                    return false;
+
+                } else if (!isBullet && !isPlayer && !isValidMovementX && !isValidMovementY) {
+                    return false;
+
+                } else if (!isBullet && isPlayer && !isValidMovementX && !isValidMovementY) {
+                    return false;
+                }
+            }
+        }
 
         for (IStructure structure : scenario.getStructures())
         {
@@ -284,6 +358,7 @@ public class Game implements KeyListener {
             isValidMovementY = true;
             structureRangeX = generateRange(structure.getLocation().x, 32);
             structureRangeY = generateRange(structure.getLocation().y, 32);
+
             if (!structure.getType().equals(StructureType.Grass) && !structure.getType().equals(StructureType.Water)) {
 
                 if (containsOverlap(subjectRangeX, structureRangeX))
@@ -295,15 +370,15 @@ public class Game implements KeyListener {
                 if (!isValidMovementX && !isValidMovementY && structure.getType().equals(StructureType.Brick) && isBullet) {
                     structure.setHP(structure.getHP()-1, orientation);
                     if (structure.getState().equals(BrickState.Destroyed)) {
-                        System.out.println("eliminar");
                         scenario.getPanelGame().remove(structure.getLabel());
                         scenario.getStructures().remove(structure);
                     }
+                    return false;
                 }
 
                 if (!isValidMovementX && !isValidMovementY) {
                     isValidStructure = false;
-                    break;
+                    return false;
                 }
 
             } else if (structure.getType().equals(StructureType.Water)) {
@@ -317,34 +392,12 @@ public class Game implements KeyListener {
 
                     if (!isValidMovementX && !isValidMovementY) {
                         isValidStructure = false;
-                        break;
+                        return false;
                     }
                 }
 
             } else {
                 scenario.getPanelGame().setComponentZOrder(structure.getLabel(), 0);
-            }
-        }
-
-        for (Tank enemy : enemyTanks) {
-
-            if (enemy.isActive()) {
-                isValidTank = true;
-                isValidMovementX = true;
-                isValidMovementY = true;
-                enemyRangeX = generateRange(enemy.getLocation().x, 52);
-                enemyRangeY = generateRange(enemy.getLocation().y, 52);
-
-                if (containsOverlap(subjectRangeX, enemyRangeX))
-                    isValidMovementX = false;
-
-                if (containsOverlap(subjectRangeY, enemyRangeY))
-                    isValidMovementY = false;
-
-                if (!isValidMovementX && !isValidMovementY) {
-                    isValidTank = false;
-                    break;
-                }
             }
         }
 
@@ -372,10 +425,76 @@ public class Game implements KeyListener {
         return range;
     }
 
+    private synchronized void shootBullet(long currentTime) {
+
+        bulletHit.set(false);
+        Bullet bullet = new Bullet(playerTank.getOrientation(), playerTank.getLocation());
+        scenario.getPanelGame().add(bullet.getLabel());
+        scenario.getPanelGame().setComponentZOrder(bullet.getLabel(), 0);
+
+        lastSpacePressTime = currentTime;
+
+        bulletThread = new Thread(() -> {
+            while (!bulletHit.get()) {
+                bulletHit.set(false);
+
+                try {
+
+                    if (bullet.getOrientation().equals(Orientation.Up)) {
+
+                        if (bullet.getLocation().y - 15 > 0 && validateMovement(generateRange(bullet.getLocation().x, 16), generateRange(bullet.getLocation().y - 15, 16), true, bullet.getOrientation(), true, playerTank))
+                            playerTank.executeCommand(new ShootCommand(bullet));
+                        else
+                            bulletHit.set(true);
+
+                    } else if (bullet.getOrientation().equals(Orientation.Down)) {
+
+                        if (bullet.getLocation().y + 15 < 832 && validateMovement(generateRange(bullet.getLocation().x, 16), generateRange(bullet.getLocation().y + 15, 16), true, bullet.getOrientation(), true, playerTank))
+                            playerTank.executeCommand(new ShootCommand(bullet));
+                        else
+                            bulletHit.set(true);
+
+                    } else if (bullet.getOrientation().equals(Orientation.Left)) {
+
+                        if (bullet.getLocation().x - 15 > 0 && validateMovement(generateRange(bullet.getLocation().x - 15, 16), generateRange(bullet.getLocation().y, 16), true, bullet.getOrientation(), true, playerTank))
+                            playerTank.executeCommand(new ShootCommand(bullet));
+                        else
+                            bulletHit.set(true);
+
+                    } else if (bullet.getOrientation().equals(Orientation.Right)) {
+
+                        if (bullet.getLocation().x + 15 < 832 && validateMovement(generateRange(bullet.getLocation().x + 15, 16), generateRange(bullet.getLocation().y, 16), true, bullet.getOrientation(), true, playerTank))
+                            playerTank.executeCommand(new ShootCommand(bullet));
+                        else
+                            bulletHit.set(true);
+                    }
+
+                    //windowRef.getContentPane().revalidate();
+                    windowRef.getContentPane().repaint();
+
+                    if (bulletHit.get()) {
+                        scenario.getPanelGame().setComponentZOrder(bullet.getLabel(), 0);
+                        bullet.bulletHit();
+                        //windowRef.getContentPane().revalidate();
+                        windowRef.getContentPane().repaint();
+                        scenario.getPanelGame().remove(bullet.getLabel());
+                        break;
+                    }
+
+
+                    sleep(17);
+
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        bulletThread.start();
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -396,7 +515,7 @@ public class Game implements KeyListener {
             } else {
                 windowRef.getContentPane().removeAll();
 
-                this.scenarioFactory = new Level8Factory();
+                this.scenarioFactory = new Level1Factory();
                 scenario = scenarioFactory.createScenario();
                 scenario.getPanelGame().setLocation(20,20);
                 windowRef.getContentPane().add(scenario.getPanel());
@@ -407,90 +526,26 @@ public class Game implements KeyListener {
                 this.isStagePanel = false;
             }
 
-        } else if (keyCode == KeyEvent.VK_W) {
-            //playerTank.setOrientation(Orientation.Up);
+        }else if (keyCode == KeyEvent.VK_W) {
+            playerTank.setOrientation(Orientation.Up);
             isMovingUp = true;
         } else if (keyCode == KeyEvent.VK_A) {
-            //playerTank.setOrientation(Orientation.Left);
+            playerTank.setOrientation(Orientation.Left);
             isMovingLeft = true;
         } else if (keyCode == KeyEvent.VK_S) {
-            //playerTank.setOrientation(Orientation.Down);
+            playerTank.setOrientation(Orientation.Down);
             isMovingDown = true;
         } else if (keyCode == KeyEvent.VK_D) {
-            //playerTank.setOrientation(Orientation.Right);
+            playerTank.setOrientation(Orientation.Right);
             isMovingRight = true;
-        } else if (keyCode == KeyEvent.VK_SPACE && !isShooting) {
+        }
+
+        if (keyCode == KeyEvent.VK_SPACE && gameRunning) {
 
             long currentTime = System.currentTimeMillis();
-            if (currentTime - lastSpacePressTime > 500)
-            {
-                AtomicBoolean bulletHit = new AtomicBoolean(false);
-                Bullet bullet = new Bullet(playerTank.getOrientation(), playerTank.getLocation());
-                scenario.getPanelGame().add(bullet.getLabel());
-                scenario.getPanelGame().setComponentZOrder(bullet.getLabel(), 0);
-
-                isShooting = true;
-                lastSpacePressTime = currentTime;
-
-                Thread bulletThread = new Thread(() -> {
-
-                    while (true) {
-                        bulletHit.set(false);
-
-                        try {
-
-                            if (bullet.getOrientation().equals(Orientation.Up)) {
-
-                                if (bullet.getLocation().y - 5 > 0 && validateMovement(generateRange(bullet.getLocation().x, 16), generateRange(bullet.getLocation().y - 5, 16), true, bullet.getOrientation()))
-                                    playerTank.executeCommand(new ShootCommand(bullet));
-                                else
-                                    bulletHit.set(true);
-
-                            } else if (bullet.getOrientation().equals(Orientation.Down)) {
-
-                                if (bullet.getLocation().y + 5 < 832 && validateMovement(generateRange(bullet.getLocation().x, 16), generateRange(bullet.getLocation().y + 5, 16), true, bullet.getOrientation()))
-                                    playerTank.executeCommand(new ShootCommand(bullet));
-                                else
-                                    bulletHit.set(true);
-
-                            } else if (bullet.getOrientation().equals(Orientation.Left)) {
-
-                                if (bullet.getLocation().x - 5 > 0 && validateMovement(generateRange(bullet.getLocation().x - 5, 16), generateRange(bullet.getLocation().y, 16), true, bullet.getOrientation()))
-                                    playerTank.executeCommand(new ShootCommand(bullet));
-                                else
-                                    bulletHit.set(true);
-
-                            } else if (bullet.getOrientation().equals(Orientation.Right)) {
-
-                                if (bullet.getLocation().x + 5 < 832 && validateMovement(generateRange(bullet.getLocation().x + 5, 16), generateRange(bullet.getLocation().y, 16), true, bullet.getOrientation()))
-                                    playerTank.executeCommand(new ShootCommand(bullet));
-                                else
-                                    bulletHit.set(true);
-                            }
-
-                            windowRef.getContentPane().revalidate();
-                            windowRef.getContentPane().repaint();
-
-                            if (bulletHit.get()) {
-                                scenario.getPanelGame().setComponentZOrder(bullet.getLabel(), 0);
-                                bullet.bulletHit();
-                                windowRef.getContentPane().revalidate();
-                                windowRef.getContentPane().repaint();
-                                scenario.getPanelGame().remove(bullet.getLabel());
-                                break;
-                            }
-
-
-                            sleep(1);
-
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                });
-
-                bulletThread.start();
-            }
+            if (currentTime - lastSpacePressTime > 100)
+                if (bulletThread == null || !bulletThread.isAlive())
+                    shootBullet(currentTime);
 
         } else if (keyCode == KeyEvent.VK_ESCAPE)
             System.exit(0);
@@ -508,20 +563,20 @@ public class Game implements KeyListener {
             isMovingDown = false;
         } else if (keyCode == KeyEvent.VK_D) {
             isMovingRight = false;
-        } else if (keyCode == KeyEvent.VK_SPACE) {
-            isShooting = false;
         }
     }
 
-    public void  startTankMovementThread() {
+    public void startTankMovementThread() {
 
         Thread movementThread = new Thread(() -> {
 
-            while (true)
+            while (gameRunning)
             {
+
                 try {
                     if (isMovingRight) {
-                        if (playerTank.getLocation().x+3+52 < 832 && validateMovement(generateRange(playerTank.getLocation().x+3, 52), generateRange(playerTank.getLocation().y, 52), false, playerTank.getOrientation()))
+
+                        if (playerTank.getLocation().x+5+52 < 832 && validateMovement(generateRange(playerTank.getLocation().x+5, 52), generateRange(playerTank.getLocation().y, 52), false, playerTank.getOrientation(), true, playerTank))
                         {
                             playerTank.setOrientation(Orientation.Right);
                             playerTank.executeCommand(new MoveCommand(playerTank));
@@ -529,7 +584,7 @@ public class Game implements KeyListener {
 
                     } else if (isMovingLeft) {
 
-                        if (playerTank.getLocation().x-3 > 0 && validateMovement(generateRange(playerTank.getLocation().x-3, 52), generateRange(playerTank.getLocation().y, 52), false, playerTank.getOrientation()))
+                        if (playerTank.getLocation().x-5 > 0 && validateMovement(generateRange(playerTank.getLocation().x-5, 52), generateRange(playerTank.getLocation().y, 52), false, playerTank.getOrientation(), true, playerTank))
                         {
                             playerTank.setOrientation(Orientation.Left);
                             playerTank.executeCommand(new MoveCommand(playerTank));
@@ -537,7 +592,7 @@ public class Game implements KeyListener {
 
                     } else if (isMovingUp) {
 
-                        if (playerTank.getLocation().y-3 > 0 && validateMovement(generateRange(playerTank.getLocation().x, 52), generateRange(playerTank.getLocation().y-3,52), false, playerTank.getOrientation()))
+                        if (playerTank.getLocation().y-5 > 0 && validateMovement(generateRange(playerTank.getLocation().x, 52), generateRange(playerTank.getLocation().y-5,52), false, playerTank.getOrientation(), true, playerTank))
                         {
                             playerTank.setOrientation(Orientation.Up);
                             playerTank.executeCommand(new MoveCommand(playerTank));
@@ -545,19 +600,18 @@ public class Game implements KeyListener {
 
                     } else if (isMovingDown) {
 
-                        if (playerTank.getLocation().y+3+52 < 832 && validateMovement(generateRange(playerTank.getLocation().x, 52), generateRange(playerTank.getLocation().y+3,52), false, playerTank.getOrientation()))
+                        if (playerTank.getLocation().y+5+52 < 832 && validateMovement(generateRange(playerTank.getLocation().x, 52), generateRange(playerTank.getLocation().y+5,52), false, playerTank.getOrientation(), true, playerTank))
                         {
                             playerTank.setOrientation(Orientation.Down);
                             playerTank.executeCommand(new MoveCommand(playerTank));
                         }
                     }
 
-                    windowRef.getContentPane().revalidate();
                     windowRef.getContentPane().repaint();
 
-                    sleep(10);
+                    sleep(17);
 
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -566,5 +620,65 @@ public class Game implements KeyListener {
         movementThread.start();
     }
 
+    private void moveEnemiy(Tank tank) {
 
+        boolean isWall = false;
+
+        if (tank.getOrientation().equals(Orientation.Up))
+        {
+            if (tank.getLocation().y-5 > 0 && validateMovement(generateRange(tank.getLocation().x, 60), generateRange(tank.getLocation().y-5,60), false, tank.getOrientation(), false, playerTank))
+            {
+                tank.setOrientation(Orientation.Up);
+                tank.executeCommand(new MoveCommand(tank));
+            } else
+                isWall = true;
+
+        } else if (tank.getOrientation().equals(Orientation.Down)) {
+
+            if (tank.getLocation().y+5+60 < 832 && validateMovement(generateRange(tank.getLocation().x, 60), generateRange(tank.getLocation().y+5,60), false, tank.getOrientation(), false, playerTank))
+            {
+                tank.setOrientation(Orientation.Down);
+                tank.executeCommand(new MoveCommand(tank));
+            } else
+                isWall = true;
+
+        } else if (tank.getOrientation().equals(Orientation.Left)) {
+
+            if (tank.getLocation().x-5 > 0 && validateMovement(generateRange(tank.getLocation().x-5, 60), generateRange(tank.getLocation().y, 60), false, tank.getOrientation(), false, playerTank))
+            {
+                tank.setOrientation(Orientation.Left);
+                tank.executeCommand(new MoveCommand(tank));
+            } else
+                isWall = true;
+
+        } else if (tank.getOrientation().equals(Orientation.Right)) {
+
+            if (tank.getLocation().x + 5 + 60 < 832 && validateMovement(generateRange(tank.getLocation().x + 5, 60), generateRange(tank.getLocation().y, 60), false, tank.getOrientation(), false, playerTank))
+            {
+                tank.setOrientation(Orientation.Right);
+                tank.executeCommand(new MoveCommand(tank));
+            } else
+                isWall = true;
+        }
+
+        if (isWall)
+            tank.setOrientation(randomOrientation());
+
+        //break;
+
+    }
+
+    public IScenario getScenario() {
+        return scenario;
+    }
+
+    public Window getWindowRef() {
+        return windowRef;
+    }
+
+    public ArrayList<Tank> getEnemyTanks() {
+        return enemyTanks;
+    }
 }
+
+
