@@ -191,6 +191,7 @@ public class Level2  {
         label275 = new JLabel();
         label279 = new JLabel();
         label280 = new JLabel();
+        labelPressEnter = new JLabel();
         tank20 = new JLabel();
         tank19 = new JLabel();
         tank18 = new JLabel();
@@ -219,23 +220,20 @@ public class Level2  {
         labelLevel = new JLabel();
         labelBullet = new JLabel();
         labelBulletCount = new JLabel();
-        card1 = new JLabel();
-        card2 = new JLabel();
-        card3 = new JLabel();
-        card4 = new JLabel();
+        labelCard = new JLabel();
+        labelCardCounter = new JLabel();
 
         //======== panelWindow ========
         {
             panelWindow.setBackground(new Color(0x747474));
             panelWindow.setForeground(Color.white);
             panelWindow.setPreferredSize(new Dimension(1024, 832));
-            panelWindow.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing
-            .border.EmptyBorder(0,0,0,0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn",javax.swing.border.TitledBorder
-            .CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.
-            awt.Font.BOLD,12),java.awt.Color.red),panelWindow. getBorder()))
-            ;panelWindow. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e
-            ){if("\u0062ord\u0065r".equals(e.getPropertyName()))throw new RuntimeException();}})
-            ;
+            panelWindow.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing.
+            border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder. CENTER
+            , javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font
+            .BOLD ,12 ), java. awt. Color. red) ,panelWindow. getBorder( )) ); panelWindow. addPropertyChangeListener (
+            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r"
+            .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
             panelWindow.setLayout(null);
 
             //======== panelGame ========
@@ -1285,6 +1283,14 @@ public class Level2  {
                 panelGame.add(label280);
                 label280.setBounds(0, 869, 32, 32);
 
+                //---- labelPressEnter ----
+                labelPressEnter.setFont(new Font("Pixel NES", Font.PLAIN, 20));
+                labelPressEnter.setForeground(Color.white);
+                labelPressEnter.setHorizontalAlignment(SwingConstants.CENTER);
+                labelPressEnter.setIcon(new ImageIcon(getClass().getResource("/imagenes/pressEnter.gif")));
+                panelGame.add(labelPressEnter);
+                labelPressEnter.setBounds(225, 670, 385, 65);
+
                 {
                     // compute preferred size
                     Dimension preferredSize = new Dimension();
@@ -1476,25 +1482,18 @@ public class Level2  {
             panelWindow.add(labelBulletCount);
             labelBulletCount.setBounds(940, 780, 60, 32);
 
-            //---- card1 ----
-            card1.setHorizontalAlignment(SwingConstants.CENTER);
-            panelWindow.add(card1);
-            card1.setBounds(875, 595, 64, 64);
+            //---- labelCard ----
+            labelCard.setHorizontalAlignment(SwingConstants.CENTER);
+            labelCard.setIcon(new ImageIcon(getClass().getResource("/imagenes/defaultCard.png")));
+            panelWindow.add(labelCard);
+            labelCard.setBounds(900, 740, 32, 32);
 
-            //---- card2 ----
-            card2.setHorizontalAlignment(SwingConstants.CENTER);
-            panelWindow.add(card2);
-            card2.setBounds(945, 595, 64, 64);
-
-            //---- card3 ----
-            card3.setHorizontalAlignment(SwingConstants.CENTER);
-            panelWindow.add(card3);
-            card3.setBounds(875, 660, 64, 64);
-
-            //---- card4 ----
-            card4.setHorizontalAlignment(SwingConstants.CENTER);
-            panelWindow.add(card4);
-            card4.setBounds(945, 660, 64, 64);
+            //---- labelCardCounter ----
+            labelCardCounter.setText("0");
+            labelCardCounter.setFont(new Font("Pixel NES", Font.PLAIN, 26));
+            labelCardCounter.setForeground(Color.black);
+            panelWindow.add(labelCardCounter);
+            labelCardCounter.setBounds(940, 740, 60, 32);
 
             {
                 // compute preferred size
@@ -1691,6 +1690,7 @@ public class Level2  {
     private JLabel label275;
     private JLabel label279;
     private JLabel label280;
+    private JLabel labelPressEnter;
     private JLabel tank20;
     private JLabel tank19;
     private JLabel tank18;
@@ -1719,9 +1719,7 @@ public class Level2  {
     private JLabel labelLevel;
     private JLabel labelBullet;
     private JLabel labelBulletCount;
-    private JLabel card1;
-    private JLabel card2;
-    private JLabel card3;
-    private JLabel card4;
+    private JLabel labelCard;
+    private JLabel labelCardCounter;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

@@ -7,7 +7,7 @@ public class StagePanel {
 
     private JPanel stagePanel;
 
-    public StagePanel(int levelNumber){
+    public StagePanel(String message){
 
         JLabel label1 = new JLabel();
         JLabel lblpressEnter = new JLabel();
@@ -16,7 +16,7 @@ public class StagePanel {
         this.stagePanel.setBackground(new Color(0x999999));
         this.stagePanel.setLayout(null);
 
-        label1.setText("Stage " + levelNumber);
+        label1.setText(message);
         label1.setHorizontalAlignment(SwingConstants.CENTER);
         label1.setFont(new Font("Pixel NES", Font.PLAIN, 36));
         label1.setForeground(Color.black);

@@ -57,10 +57,8 @@ public class Bullet {
         label.setIcon(new ImageIcon("src/main/java/imagenes/bulletHit.gif"));
 
         switch (orientation) {
-            case Up -> label.setBounds(location.x-25, location.y-32, 64, 64);
-            case Down -> label.setBounds(location.x-25, location.y-32, 64, 64);
-            case Left -> label.setBounds(location.x-32, location.y-25, 64, 64);
-            case Right -> label.setBounds(location.x-32, location.y-25, 64, 64);
+            case Up, Down -> label.setBounds(location.x-25, location.y-32, 64, 64);
+            case Left, Right -> label.setBounds(location.x-32, location.y-25, 64, 64);
         }
 
         sleep(150);

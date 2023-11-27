@@ -1,5 +1,7 @@
-package Classes;
+package Threads;
 
+import Classes.Game;
+import Classes.Tank;
 import Commands.MoveCommand;
 import Enums.Orientation;
 

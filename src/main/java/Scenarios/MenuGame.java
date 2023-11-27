@@ -1,23 +1,15 @@
 
 package Scenarios;
 
-import Interfaces.IScenario;
-import Interfaces.IStructure;
-import Observers.BulletObserver;
-import Observers.CardObserver;
-import Observers.TankObserver;
-
 import java.awt.*;
-import java.util.ArrayList;
 import javax.swing.*;
 
-public class Menu implements IScenario {
+public class MenuGame {
 
-    public Menu() {
+    public MenuGame() {
         initScenario();
     }
 
-    @Override
     public void initScenario() {
 
         panel = new JPanel();
@@ -109,42 +101,8 @@ public class Menu implements IScenario {
 
     }
 
-    @Override
-    public void setHP(int hp) {
-    }
-    @Override
     public JPanel getPanel() {
         return panel;
-    }
-
-    @Override
-    public JPanel getPanelGame() {
-        return null;
-    }
-
-    @Override
-    public ArrayList<IStructure> getStructures() {
-        return null;
-    }
-
-    @Override
-    public ArrayList<TankObserver> getTanksLeft() {
-        return null;
-    }
-
-    @Override
-    public ArrayList<CardObserver> getCardsGotten() {
-        return null;
-    }
-
-    @Override
-    public BulletObserver getBulletCounter() {
-        return null;
-    }
-
-    @Override
-    public IStructure getEagle() {
-        return null;
     }
 
     private JPanel panel;

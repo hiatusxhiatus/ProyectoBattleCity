@@ -1,7 +1,6 @@
 package Strategies;
 
 import Classes.Game;
-import Classes.ImageCache;
 import Classes.Tank;
 import Enums.TankType;
 import Interfaces.IStrategy;

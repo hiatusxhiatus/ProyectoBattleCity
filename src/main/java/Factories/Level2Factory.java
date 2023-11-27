@@ -1,5 +1,6 @@
 package Factories;
 
+
 import Interfaces.IScenario;
 import Scenarios.Level2;
 
@@ -11,3 +12,4 @@ public class Level2Factory extends ScenarioFactory {
     }
 
 }
+

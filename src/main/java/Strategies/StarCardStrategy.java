@@ -7,7 +7,7 @@ public class StarCardStrategy implements IStrategy {
 
     @Override
     public void setBonusCard(Game game) {
-        game.getPlayerTank().setSpeed(game.getPlayerTank().getShootingRate()*2);
+        game.getPlayerTank().setShootingRate(game.getPlayerTank().getShootingRate()+2);
     }
 
 }

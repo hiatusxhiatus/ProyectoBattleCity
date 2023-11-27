@@ -299,6 +299,7 @@ public class Level6  {
         label506 = new JLabel();
         label507 = new JLabel();
         label508 = new JLabel();
+        labelPressEnter = new JLabel();
 
         //======== panel ========
         {
@@ -306,13 +307,12 @@ public class Level6  {
             panel.setForeground(Color.white);
             panel.setPreferredSize(new Dimension(1152, 720));
             panel.setMinimumSize(new Dimension(832, 832));
-            panel.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
-            swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border
-            . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog"
-            ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) ,panel. getBorder
-            ( )) ); panel. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
-            .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException
-            ( ); }} );
+            panel.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border
+            . EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder. CENTER, javax
+            . swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,
+            12 ), java. awt. Color. red) ,panel. getBorder( )) ); panel. addPropertyChangeListener (new java. beans
+            . PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r" .equals (e .
+            getPropertyName () )) throw new RuntimeException( ); }} );
             panel.setLayout(null);
 
             //---- label357 ----
@@ -2013,6 +2013,14 @@ public class Level6  {
             panel.add(label508);
             label508.setBounds(320, 512, 32, 32);
 
+            //---- labelPressEnter ----
+            labelPressEnter.setFont(new Font("Pixel NES", Font.PLAIN, 20));
+            labelPressEnter.setForeground(Color.white);
+            labelPressEnter.setHorizontalAlignment(SwingConstants.CENTER);
+            labelPressEnter.setIcon(new ImageIcon(getClass().getResource("/imagenes/pressEnter.gif")));
+            panel.add(labelPressEnter);
+            labelPressEnter.setBounds(0, 837, 385, 65);
+
             {
                 // compute preferred size
                 Dimension preferredSize = new Dimension();
@@ -2317,5 +2325,6 @@ public class Level6  {
     private JLabel label506;
     private JLabel label507;
     private JLabel label508;
+    private JLabel labelPressEnter;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

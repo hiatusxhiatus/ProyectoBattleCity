@@ -1,5 +1,8 @@
-package Classes;
+package Threads;
 
+import Classes.Bullet;
+import Classes.Game;
+import Classes.Tank;
 import Commands.ShootCommand;
 import Enums.Orientation;
 

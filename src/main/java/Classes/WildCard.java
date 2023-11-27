@@ -1,11 +1,12 @@
 package Classes;
 
 import Enums.CardType;
+import Interfaces.IObserver;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class WildCard {
+public class WildCard implements IObserver {
 
     private JLabel label;
     private Point location;
@@ -37,7 +38,7 @@ public class WildCard {
         Thread wildCard = new Thread(() -> {
 
             try {
-                Thread.sleep(10000);
+                Thread.sleep(13000);
                 label.setVisible(false);
                 used = true;
 
@@ -69,5 +70,10 @@ public class WildCard {
 
     public CardType getCardType() {
         return cardType;
+    }
+
+    @Override
+    public void update() {
+
     }
 }

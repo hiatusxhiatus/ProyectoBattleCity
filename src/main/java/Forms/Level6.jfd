@@ -2813,6 +2813,18 @@ new FormModel {
 				"x": 320
 				"y": 512
 			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "labelPressEnter"
+				"font": new java.awt.Font( "Pixel NES", 0, 20 )
+				"foreground": sfield java.awt.Color white
+				"horizontalAlignment": 0
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/imagenes/pressEnter.gif" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 385
+				"height": 65
+				"x": 0
+				"y": 837
+			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
 			"size": new java.awt.Dimension( 666, 666 )

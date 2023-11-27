@@ -1,13 +1,7 @@
 
 package Scenarios;
 
-import Classes.Tank;
-import Enums.TankType;
-import Factories.MenuFactory;
-import Factories.ScenarioFactory;
-import Interfaces.IScenario;
 import java.awt.*;
-import java.util.ArrayList;
 import javax.swing.*;
 
 public class Window extends JFrame {
