@@ -9,14 +9,12 @@ import Enums.Orientation;
 public class ThreadEnemyShoot extends Thread {
 
     private Tank tank;
-    private boolean isRunning;
     private Game game;
     private boolean bulletHit;
 
     public ThreadEnemyShoot(Tank tank, Game game) {
         this.tank = tank;
         this.game = game;
-        isRunning = true;
     }
 
     @Override
@@ -25,7 +23,7 @@ public class ThreadEnemyShoot extends Thread {
         try {
             sleep(1000);
 
-            while (isRunning && tank.isActive())
+            while (tank.isActive())
             {
 
                 bulletHit = false;

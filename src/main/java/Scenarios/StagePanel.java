@@ -24,7 +24,7 @@ public class StagePanel {
         label1.setBounds(0, 370, 1030, 95);
 
         lblpressEnter.setHorizontalAlignment(SwingConstants.CENTER);
-        lblpressEnter.setIcon(new ImageIcon("src/main/java/imagenes/pressEnterGray.gif"));
+        lblpressEnter.setIcon(new ImageIcon("resources/Images/pressEnterGray.gif"));
         stagePanel.add(lblpressEnter);
         lblpressEnter.setBounds(0, 700, 1030, 87);
 

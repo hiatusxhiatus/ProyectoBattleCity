@@ -6,6 +6,16 @@ import javax.swing.*;
 
 public class MenuGame {
 
+    private JPanel panel;
+    private JLabel lblTitle;
+    private JLabel lblPoints;
+    private JLabel lblPlayer1;
+    private JLabel lblCopyright;
+    private JLabel lblTank;
+    private JLabel lblITCR;
+    private JLabel lblHiatusChomin;
+    private JLabel lblpressEnter;
+
     public MenuGame() {
         initScenario();
     }
@@ -28,7 +38,7 @@ public class MenuGame {
         panel.setLayout(null);
 
         //---- lblTitle ----
-        lblTitle.setIcon(new ImageIcon("src/main/java/imagenes/TITLE.png"));
+        lblTitle.setIcon(new ImageIcon("resources/Images/TITLE.png"));
         lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(lblTitle);
         lblTitle.setBounds(0, 110, 1025, 310);
@@ -57,7 +67,7 @@ public class MenuGame {
         lblCopyright.setBounds(0, 765, 1025, 60);
 
         //---- lblTank ----
-        lblTank.setIcon(new ImageIcon("src/main/java/imagenes/yellowTankRIGHT.png"));
+        lblTank.setIcon(new ImageIcon("resources/Images/yellowTankRIGHT.png"));
         panel.add(lblTank);
         lblTank.setBounds(325, 470, 56, 56);
 
@@ -80,7 +90,7 @@ public class MenuGame {
 
         //---- lblpressEnter ----
         lblpressEnter.setHorizontalAlignment(SwingConstants.CENTER);
-        lblpressEnter.setIcon(new ImageIcon("src/main/java/imagenes/pressEnterBlack.gif"));
+        lblpressEnter.setIcon(new ImageIcon("resources/Images/pressEnterBlack.gif"));
         panel.add(lblpressEnter);
         lblpressEnter.setBounds(0, 550, 1030, 87);
 
@@ -105,14 +115,5 @@ public class MenuGame {
         return panel;
     }
 
-    private JPanel panel;
-    private JLabel lblTitle;
-    private JLabel lblPoints;
-    private JLabel lblPlayer1;
-    private JLabel lblCopyright;
-    private JLabel lblTank;
-    private JLabel lblITCR;
-    private JLabel lblHiatusChomin;
-    private JLabel lblpressEnter;
 
 }

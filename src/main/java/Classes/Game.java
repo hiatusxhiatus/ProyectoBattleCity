@@ -33,6 +33,7 @@ public class Game implements KeyListener {
     private boolean isMovingRight;
     private boolean gameRunning;
     private boolean isBulletFlying;
+    private boolean eagleAlive;
 
     private long lastShotTime;
     private int activeEnemyTanks;
@@ -65,6 +66,8 @@ public class Game implements KeyListener {
         this.isMovingRight = false;
         this.gameRunning = false;
         this.isBulletFlying = false;
+        this.eagleAlive = true;
+
 
         this.lastShotTime = 0;
         this.activeEnemyTanks = 0;
@@ -271,12 +274,12 @@ public class Game implements KeyListener {
         redTanksCount = Math.min(redTanksCount, 5);
 
         for (int i = 0; i < redTanksCount; i++) {
-            if (this.enemyTanks.size() < 4) {
+            if (this.enemyTanks.size() < 20) {
                 this.enemyTanks.add(redTank.clone());
             }
         }
 
-        while (this.enemyTanks.size() < 4) {
+        while (this.enemyTanks.size() < 20) {
             int tankType = random.nextInt(4);
             switch (tankType) {
                 case 0:
@@ -334,6 +337,7 @@ public class Game implements KeyListener {
                     }
 
                     scenario.getLabelPressEnter().setVisible(true);
+                    scenario.getPanelGame().setComponentZOrder(scenario.getLabelPressEnter(), 0);
                     gameRunning = false;
                 }
                 return false;
@@ -473,6 +477,7 @@ public class Game implements KeyListener {
             }
         }
 
+
         ArrayList<Integer> eagleRangeX = generateRange(scenario.getEagle().getLocation().x, 64);
         ArrayList<Integer> eagleRangeY = generateRange(scenario.getEagle().getLocation().y, 64);
 
@@ -482,23 +487,30 @@ public class Game implements KeyListener {
         if (containsOverlap(subjectRangeY, eagleRangeY))
             isValidMovementY = false;
 
-        if (isBullet && !isValidMovementX && !isValidMovementY) {
+        if (isBullet && !isPlayer && !isValidMovementX && !isValidMovementY) {
+            playerTank.setProtected(false);
             playerTank.setHp(0);
             scenario.setHP(0);
-            scenario.getPanelGame().remove(playerTank.getLabel());
 
-            for (Tank enemy : enemyTanks) {
-                enemy.setActive(false);
+            scenario.getPanelGame().setComponentZOrder(scenario.getLabelPressEnter(), 0);
+
+            if (!playerTank.isActive()) {
+                scenario.getPanelGame().remove(playerTank.getLabel());
+
+                for (Tank enemy : enemyTanks) {
+                    enemy.setActive(false);
+                    enemy.setHp(0);
+                }
+
+                scenario.getLabelPressEnter().setVisible(true);
+                gameRunning = false;
             }
 
-            scenario.getLabelPressEnter().setVisible(true);
-            scenario.getPanelGame().setComponentZOrder(scenario.getLabelPressEnter(), 0);
-            gameRunning = false;
-
             return false;
 
-        } else if (!isBullet && !isValidMovementX && !isValidMovementY)
+        } else if (!isValidMovementX && !isValidMovementY)
             return false;
+
 
         return isValidStructure && isValidTank;
     }
@@ -526,10 +538,15 @@ public class Game implements KeyListener {
 
     public void clearLevel() {
 
-        if (currentLevel != 1)
-            scenario.getPanelGame().removeAll();
+        if (currentLevel != 1) {
+            scenario.resetPanel();
+        }
+
+        scenario = null;
 
         this.bulletHit = new AtomicBoolean(false);
+        enemyTanks.clear();
+        wildCards.clear();
         this.enemyTanks = new ArrayList<>();
         this.wildCards = new ArrayList<>();
 
@@ -550,6 +567,7 @@ public class Game implements KeyListener {
     public void nextLevel() {
 
         clearLevel();
+        eagleAlive = true;
 
         switch (currentLevel) {
             case 1 -> scenarioFactory = new Level1Factory();
@@ -611,16 +629,16 @@ public class Game implements KeyListener {
             windowRef.getContentPane().revalidate();
             windowRef.getContentPane().repaint();
 
-        }else if (keyCode == KeyEvent.VK_W) {
+        }else if (keyCode == KeyEvent.VK_W && gameRunning) {
             playerTank.setOrientation(Orientation.Up);
             isMovingUp = true;
-        } else if (keyCode == KeyEvent.VK_A) {
+        } else if (keyCode == KeyEvent.VK_A && gameRunning) {
             playerTank.setOrientation(Orientation.Left);
             isMovingLeft = true;
-        } else if (keyCode == KeyEvent.VK_S) {
+        } else if (keyCode == KeyEvent.VK_S && gameRunning) {
             playerTank.setOrientation(Orientation.Down);
             isMovingDown = true;
-        } else if (keyCode == KeyEvent.VK_D) {
+        } else if (keyCode == KeyEvent.VK_D && gameRunning) {
             playerTank.setOrientation(Orientation.Right);
             isMovingRight = true;
         }
@@ -631,8 +649,6 @@ public class Game implements KeyListener {
 
             if (currentTime - lastShotTime > shootingInterval)
                 new ThreadPlayerShootBullet(this, currentTime).start();
-
-
 
         } else if (keyCode == KeyEvent.VK_ESCAPE)
             System.exit(0);
@@ -720,7 +736,11 @@ public class Game implements KeyListener {
         isBulletFlying = bulletFlying;
     }
 
+    public boolean isEagleAlive() {
+        return eagleAlive;
+    }
 
+    public void setEagleAlive(boolean eagleAlive) {
+        this.eagleAlive = eagleAlive;
+    }
 }
-
-

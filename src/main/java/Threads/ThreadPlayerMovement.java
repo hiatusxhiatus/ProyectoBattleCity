@@ -6,7 +6,7 @@ import Enums.Orientation;
 
 public class ThreadPlayerMovement extends Thread {
 
-    Game game;
+    private Game game;
 
     public ThreadPlayerMovement(Game game) {
         this.game = game;

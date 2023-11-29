@@ -32,6 +32,10 @@ public class Level implements IScenario {
     private JLabel labelPressEnter;
 
     public Level() {
+       initLevel();
+    }
+
+    public void initLevel() {
         structures = new ArrayList<>();
         tanksLeft = new ArrayList<>();
         panelWindow = new JPanel();
@@ -81,7 +85,7 @@ public class Level implements IScenario {
         labelI.setBounds(905, 330, 30, 35);
 
         //---- labelHPIcon ----
-        labelHPIcon.setIcon(ImageCache.loadImage("src/main/java/imagenes/hp.png"));
+        labelHPIcon.setIcon(ImageCache.loadImage("resources/Images/hp.png"));
         labelHPIcon.setHorizontalAlignment(SwingConstants.CENTER);
         returnPanelWindow().add(labelHPIcon);
         labelHPIcon.setBounds(905, 370, 32, 32);
@@ -100,32 +104,33 @@ public class Level implements IScenario {
         labelP.setBounds(940, 330, 40, 35);
 
         //---- labelFlag ----
-        labelFlag.setIcon(ImageCache.loadImage("src/main/java/imagenes/flag.png"));
+        labelFlag.setIcon(ImageCache.loadImage("resources/Images/flag.png"));
         labelFlag.setHorizontalAlignment(SwingConstants.CENTER);
         returnPanelWindow().add(labelFlag);
         labelFlag.setBounds(905, 440, 64, 64);
 
         //---- labelBullet ----
-        labelBullet.setIcon(ImageCache.loadImage("src/main/java/imagenes/bulletRIGHT.png"));
+        labelBullet.setIcon(ImageCache.loadImage("resources/Images/bulletRIGHT.png"));
         labelBullet.setHorizontalAlignment(SwingConstants.CENTER);
         returnPanelWindow().add(labelBullet);
         labelBullet.setBounds(905, 780, 32, 32);
 
         //---- labelCard ----
         labelCard.setHorizontalAlignment(SwingConstants.CENTER);
-        labelCard.setIcon(ImageCache.loadImage("src/main/java/imagenes/defaultCard.png"));
+        labelCard.setIcon(ImageCache.loadImage("resources/Images/defaultCard.png"));
         panelWindow.add(labelCard);
         labelCard.setBounds(900, 740, 32, 32);
 
         //---- labelPressEnter ----
         labelPressEnter.setHorizontalAlignment(SwingConstants.CENTER);
-        labelPressEnter.setIcon(ImageCache.loadImage("src/main/java/imagenes/pressEnter.gif"));
+        labelPressEnter.setIcon(ImageCache.loadImage("resources/Images/pressEnter.gif"));
         panelGame.add(labelPressEnter);
         labelPressEnter.setBounds(225, 670, 385, 65);
         panelGame.setComponentZOrder(labelPressEnter, 0);
         labelPressEnter.setVisible(false);
-
     }
+
+    //getters and setters
 
     public ArrayList<IStructure> returnStructures() {
         return structures;
@@ -218,6 +223,12 @@ public class Level implements IScenario {
     @Override
     public JLabel getLabelPressEnter() {
         return labelPressEnter;
+    }
+
+    @Override
+    public void resetPanel() {
+        this.panelGame.removeAll();
+        this.panelWindow.removeAll();
     }
 
 }

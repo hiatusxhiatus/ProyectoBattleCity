@@ -26,7 +26,7 @@ public class GrassStructure implements IStructure {
 
     public void setUpLabel() {
 
-        label.setIcon(ImageCache.loadImage("src/main/java/imagenes/grass.png"));
+        label.setIcon(ImageCache.loadImage("resources/Images/grass.png"));
         label.setBounds(location.x, location.y, 32, 32);
         label.setLocation(location);
 

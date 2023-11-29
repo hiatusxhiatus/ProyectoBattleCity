@@ -7,6 +7,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class Tank implements IPrototype, IObservable {
 
     private int hp;
@@ -116,17 +119,17 @@ public class Tank implements IPrototype, IObservable {
         {
             if (!isProtected) {
                 switch (orientation) {
-                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/yellowTankRIGHT.png");
-                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/yellowTankLEFT.png");
-                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/yellowTankDOWN.png");
-                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/yellowTankUP.png");
+                    case Right -> tankImage = ImageCache.loadImage("resources/Images/yellowTankRIGHT.png");
+                    case Left -> tankImage = ImageCache.loadImage("resources/Images/yellowTankLEFT.png");
+                    case Down -> tankImage = ImageCache.loadImage("resources/Images/yellowTankDOWN.png");
+                    case Up -> tankImage = ImageCache.loadImage("resources/Images/yellowTankUP.png");
                 }
             } else {
                 switch (orientation) {
-                    case Right ->tankImage = ImageCache.loadImage("src/main/java/imagenes/protectedTankRIGHT.gif");
-                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/protectedTankLEFT.gif");
-                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/protectedTankDOWN.gif");
-                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/protectedTankUP.gif");
+                    case Right ->tankImage = ImageCache.loadImage("resources/Images/protectedTankRIGHT.gif");
+                    case Left -> tankImage = ImageCache.loadImage("resources/Images/protectedTankLEFT.gif");
+                    case Down -> tankImage = ImageCache.loadImage("resources/Images/protectedTankDOWN.gif");
+                    case Up -> tankImage = ImageCache.loadImage("resources/Images/protectedTankUP.gif");
                 }
             }
 
@@ -135,42 +138,42 @@ public class Tank implements IPrototype, IObservable {
             if (tankType.equals(TankType.Simple))
             {
                 switch (orientation) {
-                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/simpleTankRIGHT.png");
-                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/simpleTankLEFT.png");
-                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/simpleTankDOWN.png");
-                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/simpleTankUP.png");
+                    case Right -> tankImage = ImageCache.loadImage("resources/Images/simpleTankRIGHT.png");
+                    case Left -> tankImage = ImageCache.loadImage("resources/Images/simpleTankLEFT.png");
+                    case Down -> tankImage = ImageCache.loadImage("resources/Images/simpleTankDOWN.png");
+                    case Up -> tankImage = ImageCache.loadImage("resources/Images/simpleTankUP.png");
                 }
 
             } else if (tankType.equals(TankType.FastMove)) {
                 switch (orientation) {
-                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastMoveTankRIGHT.png");
-                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastMoveTankLEFT.png");
-                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastMoveTankDOWN.png");
-                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastMoveTankUP.png");
+                    case Right -> tankImage = ImageCache.loadImage("resources/Images/fastMoveTankRIGHT.png");
+                    case Left -> tankImage = ImageCache.loadImage("resources/Images/fastMoveTankLEFT.png");
+                    case Down -> tankImage = ImageCache.loadImage("resources/Images/fastMoveTankDOWN.png");
+                    case Up -> tankImage = ImageCache.loadImage("resources/Images/fastMoveTankUP.png");
                 }
 
             } else if (tankType.equals(TankType.FastShoot)) {
                 switch (orientation) {
-                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastShootTankRIGHT.png");
-                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastShootTankLEFT.png");
-                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastShootTankDOWN.png");
-                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/fastShootTankUP.png");
+                    case Right -> tankImage = ImageCache.loadImage("resources/Images/fastShootTankRIGHT.png");
+                    case Left -> tankImage = ImageCache.loadImage("resources/Images/fastShootTankLEFT.png");
+                    case Down -> tankImage = ImageCache.loadImage("resources/Images/fastShootTankDOWN.png");
+                    case Up -> tankImage = ImageCache.loadImage("resources/Images/fastShootTankUP.png");
                 }
 
             } else if (tankType.equals(TankType.Resistant)){
                 switch (orientation) {
-                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/resistantTankRIGHT.png");
-                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/resistantTankLEFT.png");
-                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/resistantTankDOWN.png");
-                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/resistantTankUP.png");
+                    case Right -> tankImage = ImageCache.loadImage("resources/Images/resistantTankRIGHT.png");
+                    case Left -> tankImage = ImageCache.loadImage("resources/Images/resistantTankLEFT.png");
+                    case Down -> tankImage = ImageCache.loadImage("resources/Images/resistantTankDOWN.png");
+                    case Up -> tankImage = ImageCache.loadImage("resources/Images/resistantTankUP.png");
                 }
 
             } else
                 switch (orientation) {
-                    case Right -> tankImage = ImageCache.loadImage("src/main/java/imagenes/redTankRIGHT.gif");
-                    case Left -> tankImage = ImageCache.loadImage("src/main/java/imagenes/redTankLEFT.gif");
-                    case Down -> tankImage = ImageCache.loadImage("src/main/java/imagenes/redTankDOWN.gif");
-                    case Up -> tankImage = ImageCache.loadImage("src/main/java/imagenes/redTankUP.gif");
+                    case Right -> tankImage = ImageCache.loadImage("resources/Images/redTankRIGHT.gif");
+                    case Left -> tankImage = ImageCache.loadImage("resources/Images/redTankLEFT.gif");
+                    case Down -> tankImage = ImageCache.loadImage("resources/Images/redTankDOWN.gif");
+                    case Up -> tankImage = ImageCache.loadImage("resources/Images/redTankUP.gif");
                 }
 
             label.setBounds(location.x, location.y, 60,60);
@@ -281,4 +284,10 @@ public class Tank implements IPrototype, IObservable {
     public void setShootingRate(int shootingRate) {
         this.shootingRate = shootingRate;
     }
+
+    public void setProtected(boolean aProtected) {
+        isProtected = aProtected;
+    }
+
+
 }

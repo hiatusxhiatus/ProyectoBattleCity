@@ -237,7 +237,6 @@ public class Level3 extends Level {
 
         setStructureFactory(new WallStructureFactory());
 
-        returnStructures().add(returnStructureFactory().createStructure(new Point(32, 320)));
         returnStructures().add(returnStructureFactory().createStructure(new Point(0, 736)));
         returnStructures().add(returnStructureFactory().createStructure(new Point(0, 704)));
         returnStructures().add(returnStructureFactory().createStructure(new Point(32, 704)));

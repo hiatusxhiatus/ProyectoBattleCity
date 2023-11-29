@@ -26,7 +26,7 @@ public class WallStructure implements IStructure {
 
     public void setUpLabel() {
 
-        label.setIcon(ImageCache.loadImage("src/main/java/imagenes/wall.png"));
+        label.setIcon(ImageCache.loadImage("resources/Images/wall.png"));
         label.setBounds(location.x, location.y, 32, 32);
         label.setLocation(location);
 

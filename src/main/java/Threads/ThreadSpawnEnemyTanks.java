@@ -6,7 +6,7 @@ import Enums.Orientation;
 
 public class ThreadSpawnEnemyTanks extends Thread {
 
-    Game game;
+    private Game game;
 
     public ThreadSpawnEnemyTanks(Game game) {
         this.game = game;
@@ -30,6 +30,8 @@ public class ThreadSpawnEnemyTanks extends Thread {
                     game.getScenario().getPanelGame().add(tank.getLabel());
                     sleep(4000);
                 }
+
+                sleep(100);
 
             } while (i < game.getEnemyTanks().size() && game.isGameRunning());
 

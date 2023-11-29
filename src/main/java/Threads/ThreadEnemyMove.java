@@ -7,14 +7,12 @@ import Enums.Orientation;
 
 public class ThreadEnemyMove extends  Thread {
 
-    private boolean isRunning;
     private Game game;
     private Tank tank;
 
     public ThreadEnemyMove(Game game, Tank tank) {
         this.game = game;
         this.tank = tank;
-        isRunning = true;
     }
 
     @Override
@@ -24,9 +22,10 @@ public class ThreadEnemyMove extends  Thread {
 
         try {
 
-            while (isRunning && tank.isActive()) {
+            while (tank.isActive()) {
 
-                if (!tank.isPaused()) {
+                if (!tank.isPaused())
+                {
 
                     isWall = false;
 

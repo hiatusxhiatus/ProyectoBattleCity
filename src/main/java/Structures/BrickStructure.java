@@ -7,7 +7,6 @@ import Enums.StructureType;
 import Interfaces.IStructure;
 
 import javax.swing.*;
-import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 
 public class BrickStructure implements IStructure {
@@ -28,7 +27,7 @@ public class BrickStructure implements IStructure {
     }
 
     public void setUpLabel() {
-        label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brick.png"));
+        label.setIcon(ImageCache.loadImage("resources/Images/brick.png"));
         label.setBounds(location.x, location.y, 32, 32);
         label.setLocation(location);
 
@@ -37,18 +36,18 @@ public class BrickStructure implements IStructure {
     public void setNewAppearance() {
 
         switch (state) {
-            case Top -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickT.png"));
-            case Left -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickL.png"));
-            case Right -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickR.png"));
-            case Bottom -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickB.png"));
-            case TopLeft -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickTL.png"));
-            case TopRight -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickTR.png"));
-            case BottomLeft -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickBL.png"));
-            case BottomRight -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickBR.png"));
-            case TopLeftCorner -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickTLCorner.png"));
-            case TopRightCorner -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickTRCorner.png"));
-            case BottomLeftCorner -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickBLCorner.png"));
-            case BottomRightCorner -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brickBRCorner.png"));
+            case Top -> label.setIcon(ImageCache.loadImage("resources/Images/brickT.png"));
+            case Left -> label.setIcon(ImageCache.loadImage("resources/Images/brickL.png"));
+            case Right -> label.setIcon(ImageCache.loadImage("resources/Images/brickR.png"));
+            case Bottom -> label.setIcon(ImageCache.loadImage("resources/Images/brickB.png"));
+            case TopLeft -> label.setIcon(ImageCache.loadImage("resources/Images/brickTL.png"));
+            case TopRight -> label.setIcon(ImageCache.loadImage("resources/Images/brickTR.png"));
+            case BottomLeft -> label.setIcon(ImageCache.loadImage("resources/Images/brickBL.png"));
+            case BottomRight -> label.setIcon(ImageCache.loadImage("resources/Images/brickBR.png"));
+            case TopLeftCorner -> label.setIcon(ImageCache.loadImage("resources/Images/brickTLCorner.png"));
+            case TopRightCorner -> label.setIcon(ImageCache.loadImage("resources/Images/brickTRCorner.png"));
+            case BottomLeftCorner -> label.setIcon(ImageCache.loadImage("resources/Images/brickBLCorner.png"));
+            case BottomRightCorner -> label.setIcon(ImageCache.loadImage("resources/Images/brickBRCorner.png"));
         }
 
     }
@@ -161,7 +160,6 @@ public class BrickStructure implements IStructure {
 
     }
 
-
     @Override
     public void setHP(int hp, Orientation orientation) {
         this.hp = hp;
@@ -199,7 +197,8 @@ public class BrickStructure implements IStructure {
 
     @Override
     public void setState(BrickState state) {
-        //setNewStateAndAppearance(state);
+        this.state = state;
+        setNewAppearance();
     }
 
     @Override
@@ -207,8 +206,8 @@ public class BrickStructure implements IStructure {
         this.type = type;
 
         if (type.equals(StructureType.Wall))
-            this.label.setIcon(ImageCache.loadImage("src/main/java/imagenes/wall.png"));
+            this.label.setIcon(ImageCache.loadImage("resources/Images/wall.png"));
         else
-            this.label.setIcon(ImageCache.loadImage("src/main/java/imagenes/brick.png"));
+            this.label.setIcon(ImageCache.loadImage("resources/Images/brick.png"));
     }
 }

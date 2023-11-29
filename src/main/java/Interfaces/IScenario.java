@@ -16,6 +16,7 @@ public interface IScenario {
     JPanel getPanelGame();
     JPanel getPanel();
     JLabel getLabelPressEnter();
+    void resetPanel();
     void setHP(int hp);
 
 }

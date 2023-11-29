@@ -1,12 +1,10 @@
 package Classes;
 
 import Enums.CardType;
-import Interfaces.IObserver;
-
 import javax.swing.*;
 import java.awt.*;
 
-public class WildCard implements IObserver {
+public class WildCard {
 
     private JLabel label;
     private Point location;
@@ -24,12 +22,12 @@ public class WildCard implements IObserver {
     public void setUpLabel() {
 
         switch (cardType) {
-            case Clock -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/clockCard.gif"));
-            case Star -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/starCard.gif"));
-            case Helmet -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/helmetCard.gif"));
-            case Shovel -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/shovelCard.gif"));
-            case Bomb -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/bombCard.gif"));
-            case Tank -> label.setIcon(ImageCache.loadImage("src/main/java/imagenes/tankCard.gif"));
+            case Clock -> label.setIcon(ImageCache.loadImage("resources/Images/clockCard.gif"));
+            case Star -> label.setIcon(ImageCache.loadImage("resources/Images/starCard.gif"));
+            case Helmet -> label.setIcon(ImageCache.loadImage("resources/Images/helmetCard.gif"));
+            case Shovel -> label.setIcon(ImageCache.loadImage("resources/Images/shovelCard.gif"));
+            case Bomb -> label.setIcon(ImageCache.loadImage("resources/Images/bombCard.gif"));
+            case Tank -> label.setIcon(ImageCache.loadImage("resources/Images/tankCard.gif"));
         }
 
         label.setBounds(location.x, location.y, 64, 64);
@@ -72,8 +70,4 @@ public class WildCard implements IObserver {
         return cardType;
     }
 
-    @Override
-    public void update() {
-
-    }
 }

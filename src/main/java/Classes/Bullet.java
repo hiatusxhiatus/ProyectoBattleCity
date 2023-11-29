@@ -27,22 +27,22 @@ public class Bullet {
         ImageIcon bulletImage = null;
         switch (orientation) {
             case Up:
-                bulletImage = ImageCache.loadImage("src/main/java/imagenes/bulletUP.png");
+                bulletImage = ImageCache.loadImage("resources/Images/bulletUP.png");
                 location = new Point(x + 18, y - 16);
                 label.setBounds(x, y, 16, 16);
                 break;
             case Down:
-                bulletImage = ImageCache.loadImage("src/main/java/imagenes/bulletDOWN.png");
+                bulletImage = ImageCache.loadImage("resources/Images/bulletDOWN.png");
                 location = new Point(x + 18, y + 52);
                 label.setBounds(x, y, 16, 16);
                 break;
             case Left:
-                bulletImage = ImageCache.loadImage("src/main/java/imagenes/bulletLEFT.png");
+                bulletImage = ImageCache.loadImage("resources/Images/bulletLEFT.png");
                 location = new Point(x - 18, y + 19);
                 label.setBounds(x, y, 16, 16);
                 break;
             case Right:
-                bulletImage = ImageCache.loadImage("src/main/java/imagenes/bulletRIGHT.png");
+                bulletImage = ImageCache.loadImage("resources/Images/bulletRIGHT.png");
                 location = new Point(x + 52, y + 19);
                 label.setBounds(x, y, 16, 16);
                 break;
@@ -54,7 +54,7 @@ public class Bullet {
 
     public void bulletHit() throws InterruptedException {
 
-        label.setIcon(new ImageIcon("src/main/java/imagenes/bulletHit.gif"));
+        label.setIcon(new ImageIcon("resources/Images/bulletHit.gif"));
 
         switch (orientation) {
             case Up, Down -> label.setBounds(location.x-25, location.y-32, 64, 64);
@@ -64,6 +64,8 @@ public class Bullet {
         sleep(150);
 
     }
+
+    //getters and setters
 
     public Orientation getOrientation() {
         return orientation;
@@ -84,7 +86,6 @@ public class Bullet {
     public Point getLocation() {
         return location;
     }
-
 
     public void setLocation(int x, int y) {
         this.location = new Point(x, y);

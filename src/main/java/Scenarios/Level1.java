@@ -13,7 +13,6 @@ public class Level1 extends Level {
     public Level1() {
         super();
         initScenario();
-
     }
 
     public void initScenario() {

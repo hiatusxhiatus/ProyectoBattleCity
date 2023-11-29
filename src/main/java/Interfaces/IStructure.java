@@ -10,12 +10,12 @@ import java.awt.*;
 
 public interface IStructure {
 
-    void setHP(int hp, Orientation orientation);
     int getHP();
-    Point getLocation();
     JLabel getLabel();
-    StructureType getType();
+    Point getLocation();
     BrickState getState();
+    StructureType getType();
     void setState(BrickState state);
     void setType(StructureType type);
+    void setHP(int hp, Orientation orientation);
 }

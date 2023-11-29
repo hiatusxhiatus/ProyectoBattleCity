@@ -26,7 +26,7 @@ public class EagleStructure implements IStructure {
 
     public void setUpLabel() {
 
-        label.setIcon(ImageCache.loadImage("src/main/java/imagenes/eagle.png"));
+        label.setIcon(ImageCache.loadImage("resources/Images/eagle.png"));
         label.setBounds(location.x, location.y, 64, 64);
         label.setLocation(location);
 

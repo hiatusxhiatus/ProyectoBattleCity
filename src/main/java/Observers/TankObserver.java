@@ -18,7 +18,7 @@ public class TankObserver implements IObserver {
 
     public void setupLabel() {
 
-        label.setIcon(ImageCache.loadImage("src/main/java/imagenes/tank.png"));
+        label.setIcon(ImageCache.loadImage("resources/Images/tank.png"));
         label.setBounds(location.x, location.y, 32, 32);
         label.setLocation(location);
 
